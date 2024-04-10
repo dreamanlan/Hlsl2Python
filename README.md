@@ -54,11 +54,12 @@
  **There are two main types of usage**
 
 - One is based on shadertoy, which has a relatively complete startup framework, so as long as there are no errors in the translation and no runtime library functions that need to be completed, you can run and see the results.
- 1. tune the shader on shadertoy, try to avoid using writable global variables, structures and arrays.
- 2. Copy the contents of the shader to the file test.glsl in the bin/Debug/net6.0/workdir.
- 3. Execute testglsl.bat.
- 4. Or if you are using a new filename, use a command line argument to specify the filename and translate it (see the commands in testglsl.bat).
- 5. In the conda environment, go to the bin/Debug/net6.0/workdir/tmp directory and run
+
+1. Debug the shader on Shadertoy and try to avoid using writable global variables, structures, and arrays.
+2. Copy the shader content to the test.glsl file under bin/Debug/net6.0/workdir.
+3. Run testglsl.bat.
+4. Alternatively, if you are using a new file name, specify the file name as a command-line parameter for translation (you can refer to the command in testglsl.bat).
+5. In the conda environment, go to the bin/Debug/net6.0/workdir/tmp directory and execute
 	 
 `python test.py`.
 
@@ -66,29 +67,29 @@
 - The other category is the regular hlsl shader or compute shader, this category currently does not provide a startup framework, it will only generate an empty startup function, you need to modify the runtime (mainly because of the lack of relevant parameters, entry signatures, and runtime flow of the specification), you can generally refer to the logic of the startup function of the shadertoy startup function to modify the startup function
  
 1. copy the contents of the shader into the hlsl_test.hlsl file under bin/Debug/net6.0/workdir.
- 2. Execute testhlsl.bat.
- 3. Modify the startup function of bin/Debug/net6.0/workdir/tmp/hlsl_test.py to provide shader global parameters and entry function parameters, call the shader entry function in a loop, and plot the tensor according to the shader result.
- 4. In the conda environment, go to the bin/Debug/net6.0/workdir/tmp directory, and run
+2. Execute testhlsl.bat.
+3. Modify the startup function of bin/Debug/net6.0/workdir/tmp/hlsl_test.py to provide shader global parameters and entry function parameters, call the shader entry function in a loop, and plot the tensor according to the shader result.
+4. In the conda environment, go to the bin/Debug/net6.0/workdir/tmp directory, and run
  
 `python hlsl_test.py`
 
 **Conda environment installation:**
  
 1. install Anaconda or Miniconda can be, Anaconda is more complete, but also includes a Jupyter Notebook, you can do graphical analysis more easily
- 2. [https://www.anaconda.com/products/distribution](https://www.anaconda.com/products/distribution "Anaconda")
- 3. [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html "Miniconda")
- 4. If you need to do automatic differentiation or use pytorch lib, install Cuda 11.7+ SDK [https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64&target_ version=10&target_type=exe_local](https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64&target_version= 10&target_type=exe_local "Cuda"), then install pytorch 1.13+ [https://pytorch.org/get-started/locally/#anaconda](https://pytorch.org/get- started/locally/#anaconda "Pytorch with conda")
- 5. enter the conda environment using base or create a new environment using python 3.9 or higher
- 6. Install the python libraries using pip (if using Anaconda, many of the libraries may already be installed).
+2. [https://www.anaconda.com/products/distribution](https://www.anaconda.com/products/distribution "Anaconda")
+3. [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html "Miniconda")
+4. If you need to do automatic differentiation or use pytorch lib, install Cuda 11.7+ SDK [https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64&target_ version=10&target_type=exe_local](https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64&target_version= 10&target_type=exe_local "Cuda"), then install pytorch 1.13+ [https://pytorch.org/get-started/locally/#anaconda](https://pytorch.org/get- started/locally/#anaconda "Pytorch with conda")
+5. enter the conda environment using base or create a new environment using python 3.9 or higher
+6. Install the python libraries using pip (if using Anaconda, many of the libraries may already be installed).
  		
 `pip install matplotlib numpy numba cupy-cuda11x imageio PyOpenGL glfw`
  
 7. If using pytorch, install pyjion
  
 `pip install matplotlib numpy pyjion imageio PyOpenGL glfw`
- `conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia`
+`conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia`
 
- 8. The environment is ready.
+8. The environment is ready.
 
 
 # Workflow (shadertoy as an example) #
