@@ -2,8 +2,8 @@
 
 # Command Line #
 
-
- Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex2d0~3 tex_file] [-tex3d0~3 tex_file] [-texcube0~3 tex_file] [- shadertoy] [-gl] [-profiling] [-notorch] [-autodiff] [-gendsl] [-rewritedsl] [-printblocks] [-printfinalblocks] [-notvectorizebranch] [- novecterization] [-noconst] [-multiple] [-unroll max_loop] [-debug] [-src ] hlsl_file
+``
+Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex2d0~3 tex_file] [-tex3d0~3 tex_file] [-texcube0~3 tex_file] [- shadertoy] [-gl] [-profiling] [-notorch] [-autodiff] [-gendsl] [-rewritedsl] [-printblocks] [-printfinalblocks] [-notvectorizebranch] [- novecterization] [-noconst] [-multiple] [-unroll max_loop] [-debug] [-src ] hlsl_file
  
 [-out outfile] output file path and name
  
@@ -48,6 +48,7 @@
 [-debug] debug mode
  
 [-src ] hlsl_file source hlsl/glsl file, -src can be omitted when file is the last argument
+``
  
 # Usage
 
@@ -121,7 +122,7 @@
 
 # 命令行 #
 
-
+``
     Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex2d0~3 tex_file] [-tex3d0~3 tex_file] [-texcube0~3 tex_file] [-shadertoy] [-gl] [-profiling] [-notorch] [-autodiff] [-gendsl] [-rewritedsl] [-printblocks] [-printfinalblocks] [-notvectorizebranch] [-novecterization] [-noconst] [-multiple] [-unroll max_loop] [-debug] [-src ] hlsl_file
     
      [-out outfile] output file path and name
@@ -167,6 +168,7 @@
      [-debug] debug mode
     
      [-src ] hlsl_file source hlsl/glsl file, -src can be omitted when file is the last argument
+``
  
 # 用法 #
 
