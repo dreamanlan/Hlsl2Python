@@ -1,5 +1,7 @@
 ==== English Description ====
 
+
+
 # Command Line #
 
 ```
@@ -117,7 +119,11 @@ Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex2d0
 5. Hlsl2python uses template code generation to generate swizzle APIs. The gencode directory contains the code generation tool and template code for generating code (gen_hlsl_lib_numpy_swizzle.dsl and gen_hlsl_lib_torch_swizzle.dsl for NumPy and PyTorch, respectively, and gen_glsl_h.dsl is used to generate some code that will be used when converting glsl to hlsl in glsl.h). The generated swizzle code is also in the shaderlib directory, with one copy for NumPy and one for PyTorch, named hlsl_lib_numpy_swizzle.py and hlsl_lib_torch_swizzle.py, respectively.
 6. In very rare cases, an error may be reported during the test.hlsl stage of translation, indicating a compilation error. In this case, check the error in test.hlsl according to the error message, and then modify the corresponding content in test.glsl. This situation should not occur normally. If it does, there may be a problem with the glsl preprocessing stage, and it may be necessary to modify the hlsl2python source code to solve it.
 
+
+
 ==== Chinese Description ====
+
+
 
 # 命令行 #
 
