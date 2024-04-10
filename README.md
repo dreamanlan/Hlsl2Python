@@ -1,7 +1,133 @@
+==== English Description ====
+
+
+
+# Command Line #
+
+```
+Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex2d0~3 tex_file] [-tex3d0~3 tex_file] [-texcube0~3 tex_file] [- shadertoy] [-gl] [-profiling] [-notorch] [-autodiff] [-gendsl] [-rewritedsl] [-printblocks] [-printfinalblocks] [-notvectorizebranch] [- novecterization] [-noconst] [-multiple] [-unroll max_loop] [-debug] [-src ] hlsl_file
+ 
+[-out outfile] output file path and name
+ 
+[-args arg_dsl_file] config file path and name, default is [hlsl_file_name]_args.dsl
+ 
+[-entry main_func_name] shader entry function, default is mainImage for shadertoy, main for glsl/compute, frag for hlsl
+ 
+[-tex2d0~3 tex_file] 2d channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
+ 
+[-tex3d0~3 tex_file] 3d channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
+ 
+[-texcube0~3 tex_file] cube channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
+ 
+[-shadertoy] shadertoy mode
+ 
+[-gl] render with opengl [-ngl] render with matplotlib (default)
+ 
+[-profiling] profiling mode [-notprofiling] normal mode (default)
+ 
+[-notorch] dont use pytorch lib [-torch] use pytorch lib (default)
+ 
+[-autodiff] autodiff mode, only valid with torch mode [-noautodiff] normal mode (default)
+ 
+[-gendsl] generate prune dsl and final dsl [-notgendsl] dont generate prune dsl and final dsl (default)
+ 
+[-rewritedsl] rewrite [hlsl_file_name].dsl to [hlsl_file_name].txt [-notrewritedsl] dont rewrite dsl (default)
+ 
+[-printblocks] output dataflow structure built in scalar phase [-notprintblocks] dont output (default)
+ 
+[-printfinalblocks] output dataflow structure built in vectorizing phase [-notprintfinalblocks] dont output (default)
+ 
+[-notvectorizebranch] dont remove loop branches [-vectorizebranch] remove loop branches (default)
+ 
+[-novecterization] dont do vectorization [-vecterization] do vectorization (default)
+ 
+[-noconst] dont do const propagation [-const] do const propagation (default)
+ 
+[-multiple] output standalone python lib files [-single] output one python file including lib contents (default)
+ 
+[-unroll max_loop] max loop count while unroll loops, -1 default, means dont unroll an uncounted loops
+ 
+[-debug] debug mode
+ 
+[-src ] hlsl_file source hlsl/glsl file, -src can be omitted when file is the last argument
+```
+ 
+# Usage
+
+ **There are two main types of usage**
+
+- One is based on shadertoy, which has a relatively complete startup framework, so as long as there are no errors in the translation and no runtime library functions that need to be completed, you can run and see the results.
+
+1. Debug the shader on Shadertoy and try to avoid using writable global variables, structures, and arrays.
+2. Copy the shader content to the test.glsl file under bin/Debug/net6.0/workdir.
+3. Run testglsl.bat.
+4. Alternatively, if you are using a new file name, specify the file name as a command-line parameter for translation (you can refer to the command in testglsl.bat).
+5. In the conda environment, go to the bin/Debug/net6.0/workdir/tmp directory and execute
+	 
+`python test.py`.
+
+
+- The other category is the regular hlsl shader or compute shader, this category currently does not provide a startup framework, it will only generate an empty startup function, you need to modify the runtime (mainly because of the lack of relevant parameters, entry signatures, and runtime flow of the specification), you can generally refer to the logic of the startup function of the shadertoy startup function to modify the startup function
+ 
+1. copy the contents of the shader into the hlsl_test.hlsl file under bin/Debug/net6.0/workdir.
+2. Execute testhlsl.bat.
+3. Modify the startup function of bin/Debug/net6.0/workdir/tmp/hlsl_test.py to provide shader global parameters and entry function parameters, call the shader entry function in a loop, and plot the tensor according to the shader result.
+4. In the conda environment, go to the bin/Debug/net6.0/workdir/tmp directory, and run
+ 
+`python hlsl_test.py`
+
+**Conda environment installation:**
+ 
+1. install Anaconda or Miniconda can be, Anaconda is more complete, but also includes a Jupyter Notebook, you can do graphical analysis more easily
+2. [https://www.anaconda.com/products/distribution](https://www.anaconda.com/products/distribution "Anaconda")
+3. [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html "Miniconda")
+4. If you need to do automatic differentiation or use pytorch lib, install Cuda 11.7+ SDK [https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64&target_ version=10&target_type=exe_local](https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64&target_version= 10&target_type=exe_local "Cuda"), then install pytorch 1.13+ [https://pytorch.org/get-started/locally/#anaconda](https://pytorch.org/get- started/locally/#anaconda "Pytorch with conda")
+5. enter the conda environment using base or create a new environment using python 3.9 or higher
+6. Install the python libraries using pip (if using Anaconda, many of the libraries may already be installed).
+ 		
+`pip install matplotlib numpy numba cupy-cuda11x imageio PyOpenGL glfw`
+ 
+7. If using pytorch, install pyjion
+ 
+`pip install matplotlib numpy pyjion imageio PyOpenGL glfw`
+`conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia`
+
+8. The environment is ready.
+
+
+# Workflow (shadertoy as an example) #
+
+
+- When the input file is glsl, assuming it is test.glsl, dxc is first used for preprocessing to obtain the tmp/test.i file.
+- Hlsl2python checks whether there is a configuration file named test_args.dsl in the directory where test.glsl is located. If it exists, the configuration is loaded. Some configurations in the configuration file can also be specified as command-line parameters, which take precedence over the configurations in the configuration file.
+- Hlsl2python first processes the conditional expressions in the test.i file (mainly those with assignment statements embedded in the conditional expressions, which need to be enclosed in parentheses, otherwise the syntax cannot be accepted by metadsl).
+- Metadsl is used to load the content of test.i with processed conditional expressions, and then perform relatively simple program structure and lexical scope analysis, rewrite the syntax inconsistent between glsl and hlsl, and output the test.hlsl file. At this time, glsl.h is included, which contains some macro definitions and hlsl functions to provide syntax or functionality in glsl. In addition, for structures and arrays, initialization functions for structures and arrays will be generated.
+- Note: If the input file is hlsl, only the step of reading the configuration file will be performed. The main process starts from the following step. However, the input file name in our example batch file is hlsl_test.hlsl, mainly to avoid conflicts with the output of test.glsl.
+- Next, the modified version of dxr is used to read test.hlsl and output test.dsl. During this process, dxr will perform syntax checking on test.hlsl and report an error if there is any. We need to check the error location in test.hlsl based on the line number in the error message, and then make corresponding modifications in test.glsl.
+- After that, hlsl2python enters the main process. For any subsequent errors, we need to check the error location in test.dsl, which is indicated by the line number in the error message.
+- Hlsl2python will analyze test.dsl for 2 or more times, and then output the translation result according to the command-line parameters. If the command-line parameters specify not to perform vectorization, only normal scalar functions will be output. Otherwise, the vectorized shader translation result will be generated. The output of vectorization starts from the entry function and only outputs the functions defined in the shader that will actually be called.
+
+
+# Frequently asked questions #
+
+1. Shadertoy's shader may use modifiable global variables. When translating, an error will be reported for variables involving vectorization. In this case, these global variables need to be moved to the function that uses them earliest and become local variables. Then, other functions that use them become in or inout parameters. (For simplicity, inout is used for all variables that are modified. If using out, be careful to check whether each branch of the function assigns a value to the variable.)
+2. If an error is reported during translation that a certain loop cannot be unrolled, the line number in test.dsl is provided. It is necessary to open test.dsl to see which loop is causing the error. Generally, it is because the loop condition is too complex or the number of iterations cannot be calculated. For complex loop conditions, only the loop conditions such as i < n need to be retained, and other conditions can be moved into the loop body and judged with if(!cond), and then break.
+	- If the loop is not a simple for(int i=0;i<n;++i), it needs to be manually converted to this style. Alternatively, an hlsl attribute can be added. The method of adding this attribute in glsl is to add hlsl_attr([unroll(maximum number of iterations)]) before the loop. Hlsl2python will parse this attribute and unroll the loop a specified number of times during translation.
+	- The command-line parameter -unroll can also specify a maximum number of iterations. If the number of iterations cannot be calculated and there is no loop marked with the unroll attribute, the loop will be unrolled according to this parameter value. (Hlsl2python only unrolls loops less than 512 times, otherwise an error will be reported, because loop unrolling will cause a sharp increase in the number of lines of code in the translation result, which is not convenient for debugging and reading.)
+3. If the translation is normal, but an error is reported at runtime that a certain function cannot be found, it may be because the corresponding API implementation is missing in this parameter type combination in our Python library function. You can modify the Python library file in the bin/Debug/.net60/shaderlib directory to add the relevant API. Please note that each API needs to have implementations in both NumPy and PyTorch, and APIs are usually implemented in hlsl_lib_numpy.py and hlsl_lib_torch.py, respectively.
+4. If there is an exception in texture loading at runtime, it may be due to problems with the aforementioned API implementation or bugs in the startup framework loading part. There is also a startup framework file for NumPy and PyTorch, respectively, named hlsl_inc_numpy.py and hlsl_inc_torch.py.
+5. Hlsl2python uses template code generation to generate swizzle APIs. The gencode directory contains the code generation tool and template code for generating code (gen_hlsl_lib_numpy_swizzle.dsl and gen_hlsl_lib_torch_swizzle.dsl for NumPy and PyTorch, respectively, and gen_glsl_h.dsl is used to generate some code that will be used when converting glsl to hlsl in glsl.h). The generated swizzle code is also in the shaderlib directory, with one copy for NumPy and one for PyTorch, named hlsl_lib_numpy_swizzle.py and hlsl_lib_torch_swizzle.py, respectively.
+6. In very rare cases, an error may be reported during the test.hlsl stage of translation, indicating a compilation error. In this case, check the error in test.hlsl according to the error message, and then modify the corresponding content in test.glsl. This situation should not occur normally. If it does, there may be a problem with the glsl preprocessing stage, and it may be necessary to modify the hlsl2python source code to solve it.
+
+
+
+==== Chinese Description ====
+
+
+
 # 命令行 #
 
-**Usage:**
-
+```
     Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex2d0~3 tex_file] [-tex3d0~3 tex_file] [-texcube0~3 tex_file] [-shadertoy] [-gl] [-profiling] [-notorch] [-autodiff] [-gendsl] [-rewritedsl] [-printblocks] [-printfinalblocks] [-notvectorizebranch] [-novecterization] [-noconst] [-multiple] [-unroll max_loop] [-debug] [-src ] hlsl_file
     
      [-out outfile] output file path and name
@@ -47,6 +173,7 @@
      [-debug] debug mode
     
      [-src ] hlsl_file source hlsl/glsl file, -src can be omitted when file is the last argument
+```
  
 # 用法 #
 
