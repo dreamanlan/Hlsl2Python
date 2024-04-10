@@ -75,7 +75,7 @@ namespace Hlsl2Python
                         var p = vf.Params[ix];
                         bool isOut = p.IsOut;
                         if (isOut) {
-                            //out参数类型不作为判断依据
+                            //The type of the out parameter is not used as a judgment basis.
                             continue;
                         }
                         if (t1 != t2) {
@@ -152,10 +152,16 @@ namespace Hlsl2Python
         }
         private static bool VectorizeVar(Dsl.ISyntaxComponent info, out string broadcastVarName, out bool needBroadcastObj)
         {
-            //数组向量化是对数组元素的向量化，结构的向量化是对结构字段的向量化
-            //struct向量化时所有字段一起向量化，这样与普通变量保持一致（数组也是所有元素一块向量化，当然不然就不是数组了），这样在处理上会简单很多
-            //（用作函数参数时，函数的向量化版本会特别多;如果同时还用作函数返回值，返回值也只能全部向量化，否则函数向量化时没法在函数体推导完成前得
-            //到函数向量化的签名;局部向量化的各版本间的转换也会很麻烦;而且结构体还可能存在嵌套的情形，嵌套很可能需要在实际使用中避免）
+            // Array vectorization is the vectorization of array elements, while structure vectorization is the
+            // vectorization of structure fields.
+            // When struct is vectorized, all fields are vectorized together, which is consistent with ordinary
+            // variables (arrays are also vectorized together with all elements, otherwise it is not an array).
+            // This makes the processing much simpler.
+            // (When used as a function parameter, there will be many vectorized versions of the function. If it
+            // is also used as a function return value, the return value can only be vectorized all together,
+            // otherwise the vectorization signature of the function cannot be deduced before the function body
+            // is processed. The conversion between different versions of local vectorization will also be very
+            // complicated. Moreover, there may be nested structures, which may need to be avoided in actual use.)
             bool ret = false;
             needBroadcastObj = false;
             broadcastVarName = string.Empty;
@@ -181,7 +187,7 @@ namespace Hlsl2Python
                 var func = info as Dsl.FunctionData;
                 if (null != func) {
                     if (func.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_PERIOD) {
-                        //对象向量化
+                        //Object vectorization.
                         needBroadcastObj = true;
                         if (func.IsHighOrder) {
                             ret = VectorizeVar(func.LowerOrderFunction, out broadcastVarName, out var _);
@@ -191,7 +197,7 @@ namespace Hlsl2Python
                         }
                     }
                     else if (func.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_BRACKET) {
-                        //数组向量化
+                        //Array vectorization.
                         needBroadcastObj = true;
                         if (func.IsHighOrder) {
                             ret = VectorizeVar(func.LowerOrderFunction, out broadcastVarName, out var _);

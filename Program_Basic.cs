@@ -825,7 +825,9 @@ namespace Hlsl2Python
                 for (int ix = endStatementIndex; ix >= 0; --ix) {
                     var stmInfo = Statements[ix];
                     if (stmInfo.SetVars.ContainsKey(name)) {
-                        //如果同一语句同时有设置与读取，并且不是简单语句时，则无法传播常量值（因为我们的数据结构没有进一步细分到语句的各部分，无法判断）
+                        // If there is both a set and a read in the same statement and it is not a simple statement, then constant propagation
+                        // cannot be performed (because our data structure is not further subdivided into the parts of the statement, and cannot
+                        // be determined).
                         var funcData = stmInfo.Statement as Dsl.FunctionData;
                         if (null != funcData && funcData.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_OPERATOR) {
                             bool isVal = true;
@@ -839,7 +841,8 @@ namespace Hlsl2Python
                                 }
                             }
                             if (isVal) {
-                                //复合赋值取之前语句的值
+                                //For compound assignments, the value of the previous statement needs to be taken
+                                //before performing the calculation and assignment.
                                 if (ix < endStatementIndex && stmInfo.TryGetVarSetConst(name, out var v)) {
                                     val = v;
                                     ret = true;
@@ -1106,7 +1109,8 @@ namespace Hlsl2Python
             internal bool TryGetVarConstInBlockScope(int endBasicBlockIndex, int endBasicBlockStatementIndex, string name, BlockInfo queryBlock, out string val)
             {
                 if (!IsFuncBlockInfoConstructed()) {
-                    //数据流分析的数据结构未构建完成前不能决定变量是否具有常量值
+                    //It is not possible to determine whether a variable has a constant value before the data structure for
+                    //data flow analysis is constructed.
                     val = string.Empty;
                     return false;
                 }
@@ -1131,7 +1135,7 @@ namespace Hlsl2Python
                         ret = true;
                     }
                     else {
-                        //查找子语句块与基本块（交替进行）
+                        //The search for sub-statement blocks and basic blocks is performed alternately.
                         for (int ix = endBasicBlockIndex - 1; ix >= 0; --ix) {
                             var blockInfo = ChildBlocks[ix];
                             Debug.Assert(null != blockInfo);
@@ -1260,7 +1264,8 @@ namespace Hlsl2Python
             internal bool TryGetVarConstInParent(string name, BlockInfo queryBlock, out string val)
             {
                 if (!IsFuncBlockInfoConstructed()) {
-                    //数据流分析的数据结构未构建完成前不能决定变量是否具有常量值
+                    //It is not possible to determine whether a variable has a constant value before the data structure for
+                    //data flow analysis is constructed.
                     val = string.Empty;
                     return false;
                 }
@@ -1269,7 +1274,9 @@ namespace Hlsl2Python
                 var parent = Parent;
                 if (null != parent) {
                     int ix = parent.FindChildIndex(this, out var six);
-                    //这里不需要判断是否子块的一个分支，多个分支的其它分支里的赋值不会影响当前分支，所以只需要处理当前子块的前导结点即可
+                    //It is not necessary to determine whether a branch of a sub-block has multiple branches, and the assignments
+                    //in other branches will not affect the current branch. Therefore, only the leading nodes of the current
+                    //sub-block need to be processed.
                     if (parent.TryGetVarConstInBlockScope(ix, -1, name, queryBlock, out val)) {
                         ret = true;
                     }
@@ -1285,7 +1292,8 @@ namespace Hlsl2Python
             internal bool TryGetVarConstInBasicBlock(int basicBlockIndex, int basicBlockStatementIndex, string name, out string val)
             {
                 if (!IsFuncBlockInfoConstructed()) {
-                    //数据流分析的数据结构未构建完成前不能决定变量是否具有常量值
+                    //It is not possible to determine whether a variable has a constant value before the data structure for
+                    //data flow analysis is constructed.
                     val = string.Empty;
                     return false;
                 }
@@ -1345,7 +1353,7 @@ namespace Hlsl2Python
                     ret = true;
                 }
                 else {
-                    //查找子语句块与基本块（交替进行）
+                    //The search for sub-statement blocks and basic blocks is performed alternately.
                     for (int ix = endBasicBlockIndex - 1; ix >= 0; --ix) {
                         var cblockInfo = ChildBlocks[ix];
                         Debug.Assert(null != cblockInfo);
@@ -1376,7 +1384,9 @@ namespace Hlsl2Python
                 var parent = Parent;
                 if (null != parent) {
                     int ix = parent.FindChildIndex(this, out var six);
-                    //这里不需要判断是否子块的一个分支，多个分支的其它分支里的变量不会影响当前分支，所以只需要处理当前子块的前导结点即可
+                    //It is not necessary to determine whether a branch of a sub-block has multiple branches, and the assignments
+                    //in other branches will not affect the current branch. Therefore, only the leading nodes of the current
+                    //sub-block need to be processed.
                     if (parent.FindVarInfoInBlockScope(ix, -1, name, queryBlock, out blockInfo, out basicBlockInfo, out basicBlockStmInfo, out vinfo)) {
                         ret = true;
                     }
@@ -1674,7 +1684,8 @@ namespace Hlsl2Python
                 var parent = Parent;
                 if (null != parent) {
                     int ix = parent.FindChildIndex(this, out var six);
-                    //不需要考虑子块的其它分支（只有循环时需要考虑，在下面调用里已经处理）
+                    //Other branches of the sub-block do not need to be considered (except in loops, which
+                    //have been handled in the following function call).
                     if (parent.ExistsUsingVarInBlockScope(ix + 1, 0, name, false, queryBlock)) {
                         ret = true;
                     }
@@ -1693,7 +1704,8 @@ namespace Hlsl2Python
                 var parent = Parent;
                 if (null != parent) {
                     int ix = parent.FindChildIndex(this, out var six);
-                    //不需要考虑子块的其它分支（只有循环时需要考虑，在下面调用里已经处理）
+                    //Other branches of the sub-block do not need to be considered (except in loops, which
+                    //have been handled in the following function call).
                     if (parent.ExistsSetVarInBlockScope(ix + 1, 0, name, false, queryBlock)) {
                         ret = true;
                     }
@@ -1712,7 +1724,8 @@ namespace Hlsl2Python
                 var parent = Parent;
                 if (null != parent) {
                     int ix = parent.FindChildIndex(this, out var six);
-                    //不需要考虑子块的其它分支（只有循环时需要考虑，在下面调用里已经处理）
+                    //Other branches of the sub-block do not need to be considered (except in loops, which
+                    //have been handled in the following function call).
                     if (parent.ExistsSetObjInBlockScope(ix + 1, 0, name, false, queryBlock)) {
                         ret = true;
                     }

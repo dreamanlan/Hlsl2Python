@@ -1650,9 +1650,11 @@ namespace Hlsl2Python
         private static void GenArrayInitBegin(StringBuilder sb, string arrType, Dsl.ISyntaxComponent syntax)
         {
             if (CurFuncCodeGenerateEnabled()) {
-                //为了尽量使用numpy/pytorch的张量的功能（主要考虑到性能），普通数组与结构数组的表示不一样
-                //普通数组使用numpy/pytorch的张量表示，结构数组使用python的list表示（结构也是使用list表示的）
-                //数组的向量化是对数组元素的向量化（普通数组与结构数组都是）
+                // In order to make full use of the features of NumPy/PyTorch tensors (mainly considering performance),
+                // ordinary arrays and structured arrays are represented differently.
+                // Ordinary arrays are represented by NumPy/PyTorch tensors, while structured arrays are represented by
+                // Python lists (structures are also represented by lists).
+                // Vectorization of arrays is the vectorization of array elements (both ordinary arrays and structured arrays).
                 string funcName = "array_init";
                 var nameBuilder = NewStringBuilder();
                 nameBuilder.Append(funcName);
@@ -1943,7 +1945,7 @@ namespace Hlsl2Python
                             var sb = new StringBuilder();
                             s_AutoGenCodes.Add(fn, sb);
 
-                            //普通数组的cast/broadcast借助lib里的基础api批量处理
+                            //The cast/broadcast operations for ordinary arrays are batch-processed with the basic API in the library.
                             sb.AppendLine("def {0}({1}rhs):", fn, needTarget ? "lhs, " : string.Empty);
                             if (needTarget) {
                                 if (lhsIsFuncParam) {
@@ -2020,8 +2022,8 @@ namespace Hlsl2Python
                         if (!s_AutoGenCodes.ContainsKey(fn)) {
                             var sb = new StringBuilder();
                             s_AutoGenCodes.Add(fn, sb);
-                            
-                            //普通数组使用numpy/torch的张量，可以使用底层api拷贝
+
+                            //For ordinary arrays using NumPy/PyTorch tensors, you can use the underlying API to copy.
                             sb.AppendLine("def {0}(v):", fn);
                             sb.Append("\treturn array_copy(v)");
                             sb.AppendLine();
@@ -2032,7 +2034,7 @@ namespace Hlsl2Python
         }
         private static void GenOrRecordWhereFunc(string fn, string boolType, string lhsType, string rhsType, Dsl.ISyntaxComponent syntax)
         {
-            //只有结构或结构数组需要生成 where api
+            //Only structure or structure arrays need to be generated: where api
             AddUsingFuncOrApi(fn);
             string typeWithoutArrTag = GetTypeRemoveArrTag(lhsType, out var isTuple, out var isStruct, out var isVec, out var arrNums);
             if (isTuple) {
@@ -2085,7 +2087,7 @@ namespace Hlsl2Python
         }
         private static void GenOrRecordArrayInit(string fn, string objType, Dsl.ISyntaxComponent syntax)
         {
-            //只有tuple与结构数组需要生成 array_init
+            //Only tuple or structure arrays need to be generated: array_init
             AddUsingFuncOrApi(fn);
             string typeWithoutArrTag = GetTypeRemoveArrTag(objType, out var isTuple, out var isStruct, out var isVec, out var arrNums);
             isVec = IsTypeVec(typeWithoutArrTag, out isTuple, out isStruct);
@@ -2122,7 +2124,7 @@ namespace Hlsl2Python
         }
         private static void GenOrRecordArraySet(string fn, string objType, string argType, Dsl.ISyntaxComponent syntax)
         {
-            //只有结构数组需要生成 array_set
+            //Only structure arrays need to be generated: array_set
             AddUsingFuncOrApi(fn);
             string typeWithoutArrTag = GetTypeRemoveArrTag(objType, out var isTuple, out var isStruct, out var isVec, out var arrNums);
             string struName = GetTypeNoVecPrefix(typeWithoutArrTag);
@@ -2151,7 +2153,7 @@ namespace Hlsl2Python
         }
         private static void GenOrRecordArrayGet(string fn, string objType, string argType, Dsl.ISyntaxComponent syntax)
         {
-            //只有结构数组需要生成 array_get
+            //Only structure arrays need to be generated: array_get
             AddUsingFuncOrApi(fn);
             string typeWithoutArrTag = GetTypeRemoveArrTag(objType, out var isTuple, out var isStruct, out var isVec, out var arrNums);
             string struName = GetTypeNoVecPrefix(typeWithoutArrTag);
@@ -2177,7 +2179,7 @@ namespace Hlsl2Python
         }
         private static void GenOrRecordArraySetAndBroadcast(string fn, string objType, string argType, Dsl.ISyntaxComponent syntax)
         {
-            //只有结构数组需要生成 array_set_and_broadcast
+            //Only structure arrays need to be generated: array_set_and_broadcast
             AddUsingFuncOrApi(fn);
             string typeWithoutArrTag = GetTypeRemoveArrTag(objType, out var isTuple, out var isStruct, out var isVec, out var arrNums);
             string struName = GetTypeNoVecPrefix(typeWithoutArrTag);
@@ -2482,7 +2484,8 @@ namespace Hlsl2Python
                     if (ix > 0)
                         sb.Append(", ");
                     if (s_StructInfos.TryGetValue(fi.Type, out var cstruInfo)) {
-                        //这里还是直接生成，如果没有单独使用嵌入的结构，就不用生成这个结构的默认值函数了
+                        //Generate it directly here. If the embedded structure is not used separately, there is no need to generate
+                        //the default value function for this structure.
                         GenStructDefVal(sb, cstruInfo);
                     }
                     else {
@@ -2819,7 +2822,7 @@ namespace Hlsl2Python
                                 sb.Append("] ]");
                             }
                             else {
-                                //普通数组的copy在GenVecCopyBegin里已处理
+                                //The copy operation for ordinary arrays has been handled in GenVecCopyBegin.
                                 bool needCopy = GenVecCopyBegin(sb, fi.Type, syntax);
                                 sb.Append(val);
                                 sb.Append("[");
@@ -2879,7 +2882,7 @@ namespace Hlsl2Python
                                 sb.Append("]))) ]");
                             }
                             else {
-                                //普通数组的 where 操作与普通类型的 where 都在lib里提供
+                                //Both the where operation for ordinary arrays and the where operation for ordinary types are provided in the library.
                                 string whereFuncName = "h_where";
                                 string lType = lIsVec ? GetTypeVec(fi.Type) : fi.Type;
                                 string rType = rIsVec ? GetTypeVec(fi.Type) : fi.Type;

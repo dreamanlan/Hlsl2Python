@@ -65,7 +65,7 @@ namespace Hlsl2Python
                     }
                     if (func.HaveStatement()) {
                         if(string.IsNullOrEmpty(sid) || sid == "for" || sid == "while" || sid == "else" || sid == "switch") {
-                            //结束当前语句并开始一个新的空语句
+                            //End the current statement and start a new empty statement.
                             dslAction.endStatement();
                             dslAction.beginStatement();
                             return true;
@@ -73,7 +73,7 @@ namespace Hlsl2Python
                     }
                     else {
                         if (sid == "do") {
-                            //结束当前语句并开始一个新的空语句
+                            //End the current statement and start a new empty statement.
                             dslAction.endStatement();
                             dslAction.beginStatement();
                             return true;
@@ -83,19 +83,23 @@ namespace Hlsl2Python
                 return false;
             };
             file.onAddFunction = (ref Dsl.Common.DslAction dslAction, Dsl.StatementData statement, Dsl.FunctionData function) => {
-                //这里不要改变程序结构，此时function还是一个空函数，真正的函数信息还没有填充，这里与onBeforeAddFunction的区别是此时构建了function并添加到了当前语句的函数表中
+                //Do not change the program structure at this point. The function is still an empty function, and the actual function
+                //information has not been filled in yet. The difference between this and onBeforeAddFunction is that at this point, the
+                //function is constructed and added to the function table of the current statement.
                 return false;
             };
             file.onBeforeEndStatement = (ref Dsl.Common.DslAction dslAction, Dsl.StatementData statement) => {
-                //这里可拆分语句
+                //Here, the statement can be split
                 return false;
             };
             file.onEndStatement = (ref Dsl.Common.DslAction dslAction, ref Dsl.StatementData statement) => {
-                //这里可替换整个语句，但不要修改程序其它部分结构，这里与onBeforeEndStatement的区别是此时语句已经从栈里弹出，后续将化简再加入上层语法单位
+                //Here, the entire statement can be replaced, but do not modify the structure of other parts of the program. The difference
+                //between this and onBeforeEndStatement is that at this point, the statement has been popped off the stack and will be
+                //simplified and added to the upper syntax unit later.
                 return false;
             };
             file.onBeforeBuildOperator = (ref Dsl.Common.DslAction dslAction, string op, Dsl.StatementData statement) => {
-                //这里拆分语句
+                //Split the statement here.
                 string sid = statement.GetId();
                 var func = statement.Last.AsFunction;
                 if (null != func) {
@@ -114,11 +118,11 @@ namespace Hlsl2Python
                 return false;
             };
             file.onBuildOperator = (ref Dsl.Common.DslAction dslAction, string op, ref Dsl.StatementData statement) => {
-                //这里可替换语句，不要修改其它语法结构
+                //Replace the statement here without modifying other syntax structures.
                 return false;
             };
             file.onSetFunctionId = (ref Dsl.Common.DslAction dslAction, string name, Dsl.StatementData statement, Dsl.FunctionData function) => {
-                //这里可拆分语句
+                //Here, the statement can be split
                 string sid = statement.GetId();
                 var func = statement.Last.AsFunction;
                 if (null != func) {
@@ -153,21 +157,24 @@ namespace Hlsl2Python
                 return false;
             };
             file.onSetMemberId = (ref Dsl.Common.DslAction dslAction, string name, Dsl.StatementData statement, Dsl.FunctionData function) => {
-                //这里可拆分语句
+                //Here, the statement can be split
                 return false;
             };
             file.onBeforeBuildHighOrder = (ref Dsl.Common.DslAction dslAction, Dsl.StatementData statement, Dsl.FunctionData function) => {
-                //这里可拆分语句
+                //Here, the statement can be split
                 return false;
             };
             file.onBuildHighOrder = (ref Dsl.Common.DslAction dslAction, Dsl.StatementData statement, Dsl.FunctionData function) => {
-                //这里可拆分语句
+                //Here, the statement can be split
                 return false;
             };
             if (file.LoadFromString(glslTxt, msg => { Console.WriteLine(msg); })) {
-                //glsl的语法是一个合法的dsl语法，但语义结构不同，我们只是对glsl与hlsl的微小差异进行处理，所以可以将就用dsl的表示来处理
-                //我们需要进行的变换主要是vec3(float)这类单参数构造与矩阵乘法操作替换为mul(mat, vec)，虽然是比较简单的语法，但也依赖类
-                //型信息，所以这里也包括了变量词法范围分析与简化的类型推导
+                //The syntax of GLSL is a valid DSL syntax, but the semantic structure is different. We are only dealing
+                //with minor differences between GLSL and HLSL, so we can make do with the DSL representation for
+                //processing. The transformations we need to perform mainly include replacing single-parameter
+                //constructors like vec3(float) and matrix multiplication operations with mul(mat, vec). Although
+                //these are relatively simple syntax changes, they also rely on type information. Therefore, this also
+                //includes variable lexical scope analysis and simplified type deduction.
                 TransformGlsl(file);
                 file.Save(outFile);
             }
@@ -292,7 +299,9 @@ namespace Hlsl2Python
         }
         private static string PreprocessGlslCondExp(IList<string> glslLines)
         {
-            //c语言的?:操作符与赋值操作是相同优先级，这与MetaDSL里不一样，有可能条件表达式里会出现赋值表达式，我们需要把这些表达式括起来再进行dsl解析
+            //In C language, the ?: operator and the assignment operation have the same precedence, which is different
+            //from MetaDSL. It is possible that an assignment expression may appear within a conditional expression. We
+            //need to enclose these expressions in parentheses before performing DSL parsing.
             var sb = new StringBuilder();
             bool inCommentBlock = false;
             for (int ix = 0; ix < glslLines.Count; ++ix) {
@@ -442,7 +451,8 @@ namespace Hlsl2Python
             }
             else if (null != funcData) {
                 if (funcData.GetId() == "=") {
-                    //glsl的赋值语句直接对应到hlsl是合法的，我们不需要变换，所以这里拆开分别处理各个部分即可
+                    //In GLSL, the assignment statement corresponds directly to HLSL and is legal, so we do not need
+                    //to transform it. Therefore, we can separate and process each part individually here.
                     var p = funcData.GetParam(0);
                     var vd = p as Dsl.ValueData;
                     var fd = p as Dsl.FunctionData;
@@ -454,9 +464,12 @@ namespace Hlsl2Python
                         TransformGlslCall(fd);
                     }
                     else if (null != sd) {
-                        //在dsl语法里，分号分隔各语句，glsl里的函数定义结尾不加分隔符，dsl解析时会将函数定义解析到赋值语句左边的语法部分
-                        //，这里需要把函数定义与赋值语句的左边部分拆分，以正确分析函数原型与识别赋值语句里的变量定义（但不能改变整体的表示
-                        //，否则输出到hlsl时语法可能会不正确）
+                        //In DSL syntax, semicolons separate statements, while in GLSL, function definitions do not end
+                        //with separators. During DSL parsing, the function definition is parsed to the left of the
+                        //assignment statement's syntax part. Here, we need to split the function definition from the
+                        //left part of the assignment statement to correctly analyze the function prototype and identify
+                        //variable definitions within the assignment statement (but the overall representation should
+                        //not be changed, otherwise the syntax may be incorrect when outputting to HLSL).
                         Dsl.StatementData? left, right;
                         if (SplitGlslStatementsInExpression(sd, out left, out right)) {
                             Debug.Assert(null != left && null != right);
@@ -472,7 +485,8 @@ namespace Hlsl2Python
                                     break;
                                 }
                             }
-                            //拆分时left是一个复合语句结尾，到这里left应该已经处理完成了
+                            //When splitting, "left" is the end of a compound statement, and by this point, "left" should
+                            //have been processed completely.
                             TransformGlslVar(right, 0, true, sd);
                         }
                         else {
@@ -487,8 +501,11 @@ namespace Hlsl2Python
                 }
             }
             else if (null != stmData) {
-                //在dsl语法里，分号分隔各语句，glsl里的函数定义结尾不加分隔符，dsl解析时会将函数定义与后面的函数定义或struct/buffer/变量定义
-                //连接在一起构成一个大语句，这里需要分别拆出来分析（为保证输出hlsl时的正确性，不能修改整体表示）
+                //In DSL syntax, semicolons separate statements, while in GLSL, function definitions do not end with
+                //separators. During DSL parsing, the function definition is concatenated with subsequent function
+                //definitions or struct/buffer/variable definitions to form a single large statement. Here, they need
+                //to be separated for analysis (to ensure the correctness of the output HLSL, the overall representation
+                //should not be modified).
                 int index = 0;
                 bool handled = false;
                 while (index < stmData.GetFunctionNum()) {
@@ -677,7 +694,7 @@ namespace Hlsl2Python
             for (int stmIx = 0; stmIx < func.GetParamNum(); ++stmIx) {
                 Dsl.ISyntaxComponent? syntax = null;
                 for (; ; ) {
-                    //去掉连续分号
+                    //Remove consecutive semicolons
                     syntax = func.GetParam(stmIx);
                     if (syntax.IsValid()) {
                         break;
@@ -693,7 +710,7 @@ namespace Hlsl2Python
                         }
                     }
                 }
-                //处理语句
+                //Process statement
                 if (stmIx < func.GetParamNum() && null != syntax && TransformGlslSyntax(syntax, true, out var addStm)) {
                     func.Params.Insert(stmIx + 1, addStm);
                     ++stmIx;
@@ -714,7 +731,8 @@ namespace Hlsl2Python
             }
             else if (null != funcData) {
                 if (funcData.GetId() == "=") {
-                    //glsl的赋值语句直接对应到hlsl是合法的，我们不需要变换，所以这里拆开分别处理各个部分即可
+                    //In GLSL, the assignment statement corresponds directly to HLSL and is legal, so we do not need
+                    //to transform it. Therefore, we can separate and process each part individually here.
                     var p = funcData.GetParam(0);
                     var vd = p as Dsl.ValueData;
                     var fd = p as Dsl.FunctionData;
@@ -729,7 +747,9 @@ namespace Hlsl2Python
                                 if (null != v && v.IsHighOrder
                                     && v.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_PARENTHESIS
                                     && v.LowerOrderFunction.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_BRACKET) {
-                                    //glsl的数组可以使用初始化语法赋值，但hlsl不支持，这种情形需要使用一个临时变量定义并初始化，然后赋值给要赋值的数组变量
+                                    //In GLSL, arrays can be assigned using initialization syntax, but HLSL does not support this. In such
+                                    //cases, a temporary variable needs to be defined and initialized, and then assigned to the array variable
+                                    //that needs to be assigned.
                                     handled = true;
 
                                     TransformGlslSyntax(v, false, out var caddStm);
@@ -767,9 +787,12 @@ namespace Hlsl2Python
                             TransformGlslCall(fd);
                         }
                         else if (null != sd) {
-                            //在dsl语法里，分号分隔各语句，glsl里的复合语句不加分隔符，dsl解析时会将赋值语句前面的复合语句解析到赋值语句左边
-                            //的语法部分，这里需要把复合语句与赋值语句的左边部分拆分，以正确识别赋值语句里的变量定义（但不能改变整体的表示，否
-                            //则输出到hlsl时语法可能会不正确）
+                            //In DSL syntax, semicolons separate statements, while in GLSL, compound statements do not have
+                            //separators. During DSL parsing, the compound statement before the assignment statement is
+                            //parsed to the left of the assignment statement. Here, we need to split the compound statement
+                            //from the left part of the assignment statement to correctly identify variable definitions
+                            //within the assignment statement (but the overall representation should not be changed,
+                            //otherwise the syntax may be incorrect when outputting to HLSL).
                             Dsl.StatementData? left, right;
                             if (SplitGlslStatementsInExpression(sd, out left, out right)) {
                                 Debug.Assert(null != left && null != right);
@@ -804,9 +827,12 @@ namespace Hlsl2Python
                     var fd = p as Dsl.FunctionData;
                     var sd = p as Dsl.StatementData;
                     if (null != sd) {
-                        //在dsl语法里，分号分隔各语句，glsl里的复合语句不加分隔符，dsl解析时会将赋值语句前面的复合语句解析到return语句左边
-                        //的语法部分，这里需要把复合语句与return语句的左边部分拆分，以正确处理return语句，在解析时已经把return语句改为<-表达式了,
-                        //这里需要改为return函数形式
+                        //In DSL syntax, semicolons separate statements, while in GLSL, compound statements do not
+                        //have separators.During DSL parsing, the compound statement before the assignment statement
+                        //is parsed to the left of the return statement.Here, we need to split the compound statement
+                        //from the left part of the return statement to handle the return statement correctly.The
+                        //return statement has already been changed to a<-expression during parsing. Here, it needs
+                        //to be changed to a return function form.
                         Dsl.StatementData? left, right;
                         if (SplitGlslStatementsInExpression(sd, out left, out right)) {
                             Debug.Assert(null != left && null != right);
@@ -948,7 +974,7 @@ namespace Hlsl2Python
                     for (int stmIx = 0; stmIx < funcData.GetParamNum(); ++stmIx) {
                         Dsl.ISyntaxComponent? syntax = null;
                         for (; ; ) {
-                            //去掉连续分号
+                            //consecutive
                             syntax = funcData.GetParam(stmIx);
                             if (syntax.IsValid()) {
                                 break;
@@ -964,7 +990,7 @@ namespace Hlsl2Python
                                 }
                             }
                         }
-                        //处理语句
+                        //Process statement
                         if (stmIx < funcData.GetParamNum() && null != syntax && TransformGlslSyntax(syntax, true, out var addStm)) {
                             funcData.Params.Insert(stmIx + 1, addStm);
                             ++stmIx;
@@ -1717,7 +1743,7 @@ namespace Hlsl2Python
             int funcNum = expParam.GetFunctionNum();
             var lastFunc = expParam.Last.AsFunction;
             if (null != lastFunc && lastFunc.IsHighOrder) {
-                //语句大括号后接圆括号表达式
+                //The statement curly braces are followed by a parenthesized expression.
                 var innerFunc = lastFunc;
                 while (innerFunc.IsHighOrder && innerFunc.HaveParam())
                     innerFunc = innerFunc.LowerOrderFunction;
