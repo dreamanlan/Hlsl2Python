@@ -1049,14 +1049,14 @@ namespace Hlsl2Python
                 }
             }
             /*
-             * glsl的列主矩阵翻译为hlsl时直接翻译为行主矩阵（列变成行），这样矩阵与向量的运算以及数组访问行列都是一致的，
-             * 但矩阵与矩阵的运算需要交换顺序，构造时就不对参数顺序进行调整了（参数顺序直接对应到hlsl就是行主矩阵顺序）
+            * When the column-major matrix of glsl is translated into hlsl, it is directly translated into a row-major matrix (columns become rows), so that the operations of matrices and vectors and array access to rows and columns are consistent.
+            * However, the order of matrix and matrix operations needs to be exchanged, and the parameter order is not adjusted during construction (the parameter order directly corresponds to hlsl, which is the row-major matrix order)
             else if (funcName == "mat2" || funcName == "mat3" || funcName == "mat4" ||
                     funcName == "dmat2" || funcName == "dmat3" || funcName == "dmat4") {
                 call.Name.SetId("glsl_" + funcName + "_ctor");
             }
             */
-            else if(s_GlslStructInfos.TryGetValue(funcName, out var struInfo)) {
+            else if (s_GlslStructInfos.TryGetValue(funcName, out var struInfo)) {
                 call.Name.SetId("glsl_" + funcName + "_ctor");
             }
             else if (funcName == "inverse") {
