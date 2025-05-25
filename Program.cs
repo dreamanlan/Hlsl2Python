@@ -1465,7 +1465,7 @@ namespace Hlsl2Python
         {
             bool ret = false;
             funcData = func as Dsl.FunctionData;
-            if (null != funcData && funcData.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_PERIOD) {
+            if (null != funcData && funcData.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PERIOD) {
                 ret = true;
             }
             return ret;
@@ -1474,7 +1474,7 @@ namespace Hlsl2Python
         {
             bool ret = false;
             funcData = func as Dsl.FunctionData;
-            if (null != funcData && funcData.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_BRACKET) {
+            if (null != funcData && funcData.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET) {
                 ret = true;
             }
             return ret;
@@ -1764,7 +1764,7 @@ namespace Hlsl2Python
         }
         private static string GetNamespaceName(Dsl.FunctionData func)
         {
-            if (func.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_PERIOD) {
+            if (func.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PERIOD) {
                 string m = func.GetParamId(0);
                 if (func.IsHighOrder) {
                     return GetNamespaceName(func.LowerOrderFunction) + "." + m;

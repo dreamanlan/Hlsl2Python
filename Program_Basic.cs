@@ -34,7 +34,7 @@ namespace Hlsl2Python
             }
             else if (null != typeInfoFunc) {
                 var pf = typeInfoFunc;
-                if (null != pf && pf.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_ANGLE_BRACKET_COLON) {
+                if (null != pf && pf.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_ANGLE_BRACKET_COLON) {
                     oriType = BuildTypeWithTypeArgs(pf);
                 }
             }
@@ -50,7 +50,7 @@ namespace Hlsl2Python
                     }
                     else {
                         var pf = p as Dsl.FunctionData;
-                        if (null != pf && pf.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_ANGLE_BRACKET_COLON) {
+                        if (null != pf && pf.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_ANGLE_BRACKET_COLON) {
                             oriType = BuildTypeWithTypeArgs(pf);
                         }
                     }
@@ -112,7 +112,7 @@ namespace Hlsl2Python
                 }
                 else if (null != typeInfoFunc) {
                     var pf = typeInfoFunc;
-                    if (null != pf && pf.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_ANGLE_BRACKET_COLON) {
+                    if (null != pf && pf.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_ANGLE_BRACKET_COLON) {
                         varInfo.Type = BuildTypeWithTypeArgs(pf) + arrTag;
                     }
                 }
@@ -128,7 +128,7 @@ namespace Hlsl2Python
                         }
                         else {
                             var pf = p as Dsl.FunctionData;
-                            if (null != pf && pf.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_ANGLE_BRACKET_COLON) {
+                            if (null != pf && pf.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_ANGLE_BRACKET_COLON) {
                                 varInfo.Type = BuildTypeWithTypeArgs(pf) + arrTag;
                             }
                         }
@@ -172,7 +172,7 @@ namespace Hlsl2Python
         private static string BuildTypeWithTypeArgs(Dsl.FunctionData func)
         {
             var sb = new StringBuilder();
-            if (func.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_BRACKET) {
+            if (func.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET) {
                 var arrTags = new List<string>();
                 string baseType = BuildTypeWithArrTags(func, arrTags);
                 sb.Append(baseType);
@@ -197,7 +197,7 @@ namespace Hlsl2Python
         private static string BuildTypeWithArrTags(Dsl.FunctionData func, List<string> arrTags)
         {
             string ret = string.Empty;
-            if (func.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_BRACKET) {
+            if (func.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET) {
                 if (func.IsHighOrder) {
                     ret = BuildTypeWithArrTags(func.LowerOrderFunction, arrTags);
                 }
@@ -231,10 +231,10 @@ namespace Hlsl2Python
                         sb.Append(funcData.GetId());
                     }
                     switch (funcData.GetParamClassUnmasked()) {
-                        case (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_PERIOD:
+                        case (int)Dsl.ParamClassEnum.PARAM_CLASS_PERIOD:
                             sb.Append(".");
                             break;
-                        case (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_BRACKET:
+                        case (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET:
                             sb.Append("_x");
                             break;
                         default:
@@ -829,7 +829,7 @@ namespace Hlsl2Python
                         // cannot be performed (because our data structure is not further subdivided into the parts of the statement, and cannot
                         // be determined).
                         var funcData = stmInfo.Statement as Dsl.FunctionData;
-                        if (null != funcData && funcData.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_OPERATOR) {
+                        if (null != funcData && funcData.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_OPERATOR) {
                             bool isVal = true;
                             foreach(var p in funcData.Params) {
                                 if(p is Dsl.ValueData) {

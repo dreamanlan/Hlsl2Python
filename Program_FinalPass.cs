@@ -924,7 +924,7 @@ namespace Hlsl2Python
             var objBuilder = NewStringBuilder();
             if (func.IsHighOrder) {
                 var compoundFunc = func.LowerOrderFunction;
-                Debug.Assert(compoundFunc.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_PERIOD);
+                Debug.Assert(compoundFunc.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PERIOD);
                 if (compoundFunc.IsHighOrder)
                     TransformSyntax(compoundFunc.LowerOrderFunction, objBuilder, 0, ref objType);
                 else
@@ -938,7 +938,7 @@ namespace Hlsl2Python
                 //There is only one parameter inside the parentheses, so no parentheses are needed for output (operators have been
                 //translated to function calls or assignment expressions, and parentheses have already been added during the output
                 //of assignment expressions).
-                if (!func.HaveId() && func.GetParamNum() == 1 && func.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_PARENTHESIS) {
+                if (!func.HaveId() && func.GetParamNum() == 1 && func.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS) {
                     var pp = func.GetParam(0);
                     var innerCall = pp as Dsl.FunctionData;
                     if (null != innerCall) {
@@ -1029,16 +1029,16 @@ namespace Hlsl2Python
         private static void TransformCall(Dsl.FunctionData func, StringBuilder sb, in ParseContextInfo contextInfo, int indent, ref string resultType, out bool isVarValRef, out string nameOrConst)
         {
             switch (func.GetParamClass()) {
-                case (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_OPERATOR:
+                case (int)Dsl.ParamClassEnum.PARAM_CLASS_OPERATOR:
                     TransformOperator(func, sb, contextInfo, indent, ref resultType, out isVarValRef, out nameOrConst);
                     break;
-                case (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_PERIOD:
+                case (int)Dsl.ParamClassEnum.PARAM_CLASS_PERIOD:
                     TransformMemberGet(func, sb, contextInfo, indent, ref resultType, out isVarValRef, out nameOrConst);
                     break;
-                case (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_BRACKET:
+                case (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET:
                     TransformElementGet(func, sb, contextInfo, indent, ref resultType, out isVarValRef, out nameOrConst);
                     break;
-                case (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_STATEMENT:
+                case (int)Dsl.ParamClassEnum.PARAM_CLASS_STATEMENT:
                     TransformInitList(func, sb, contextInfo, indent, ref resultType, out nameOrConst);
                     isVarValRef = false;
                     break;
@@ -1157,7 +1157,7 @@ namespace Hlsl2Python
                 if (func.IsHighOrder) {
                     TransformCall(func, sb, contextInfo, indent, ref resultType, out isVarValRef, out nameOrConst);
                 }
-                else if (func.GetParamClassUnmasked() != (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_PARENTHESIS) {
+                else if (func.GetParamClassUnmasked() != (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS) {
                     TransformCall(func, sb, contextInfo, indent, ref resultType, out isVarValRef, out nameOrConst);
                 }
                 else {

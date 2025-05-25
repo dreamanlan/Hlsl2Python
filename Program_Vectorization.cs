@@ -186,7 +186,7 @@ namespace Hlsl2Python
             else {
                 var func = info as Dsl.FunctionData;
                 if (null != func) {
-                    if (func.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_PERIOD) {
+                    if (func.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PERIOD) {
                         //Object vectorization.
                         needBroadcastObj = true;
                         if (func.IsHighOrder) {
@@ -196,7 +196,7 @@ namespace Hlsl2Python
                             ret = VectorizeVar(func.Name, out broadcastVarName, out var _);
                         }
                     }
-                    else if (func.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_BRACKET) {
+                    else if (func.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET) {
                         //Array vectorization.
                         needBroadcastObj = true;
                         if (func.IsHighOrder) {
@@ -485,7 +485,7 @@ namespace Hlsl2Python
                                             for (int i = 1; i < loopCount; ++i) {
                                                 var assignStm = new Dsl.FunctionData();
                                                 assignStm.Name = new Dsl.ValueData("=", Dsl.ValueData.ID_TOKEN);
-                                                assignStm.SetParamClass((int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_OPERATOR);
+                                                assignStm.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_OPERATOR);
                                                 assignStm.AddParam(initVar);
                                                 if (isInt) {
                                                     string val = (init + inc * i).ToString();
@@ -523,7 +523,7 @@ namespace Hlsl2Python
                     if (null != attrsFunc) {
                         foreach (var p in attrsFunc.Params) {
                             var attr = p as Dsl.FunctionData;
-                            if (null != attr && attr.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_BRACKET) {
+                            if (null != attr && attr.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET) {
                                 var attrfd = attr.GetParam(0) as Dsl.FunctionData;
                                 if (null != attrfd && attrfd.GetId() == "unroll") {
                                     if (int.TryParse(attrfd.GetParamId(0), out var ct) && ct >= 0) {
@@ -537,7 +537,7 @@ namespace Hlsl2Python
                         canUnroll = true;
                         var newLoop = new Dsl.FunctionData();
                         newLoop.Name = new Dsl.ValueData("block");
-                        newLoop.SetParamClass((int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_STATEMENT);
+                        newLoop.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_STATEMENT);
                         Dsl.ISyntaxComponent? last = null;
                         foreach (var p in forInits.Params) {
                             newLoop.AddParam(p);
@@ -548,7 +548,7 @@ namespace Hlsl2Python
                         }
                         var ifFunc = new Dsl.FunctionData();
                         ifFunc.Name = new Dsl.ValueData("if");
-                        ifFunc.SetParamClass((int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_PARENTHESIS);
+                        ifFunc.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS);
                         if (forConds.GetParamNum() == 1) {
                             ifFunc.AddParam(forConds.GetParam(0));
                         }
@@ -690,7 +690,7 @@ namespace Hlsl2Python
                     if (null != attrsFunc) {
                         foreach (var p in attrsFunc.Params) {
                             var attr = p as Dsl.FunctionData;
-                            if (null != attr && attr.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_BRACKET) {
+                            if (null != attr && attr.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET) {
                                 var attrfd = attr.GetParam(0) as Dsl.FunctionData;
                                 if (null != attrfd && attrfd.GetId() == "unroll") {
                                     if (int.TryParse(attrfd.GetParamId(0), out var ct) && ct >= 0) {
@@ -704,7 +704,7 @@ namespace Hlsl2Python
                         canUnroll = true;
                         var newLoop = new Dsl.FunctionData();
                         newLoop.Name = new Dsl.ValueData("block");
-                        newLoop.SetParamClass((int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_STATEMENT);
+                        newLoop.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_STATEMENT);
                         whileFunc.Name.SetId("if");
                         newLoop.AddParam(whileBody);
                         for (int i = 1; i < loopCt; ++i) {
@@ -840,7 +840,7 @@ namespace Hlsl2Python
                     if (null != attrsFunc) {
                         foreach (var p in attrsFunc.Params) {
                             var attr = p as Dsl.FunctionData;
-                            if (null != attr && attr.GetParamClassUnmasked() == (int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_BRACKET) {
+                            if (null != attr && attr.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET) {
                                 var attrfd = attr.GetParam(0) as Dsl.FunctionData;
                                 if (null != attrfd && attrfd.GetId() == "unroll") {
                                     if (int.TryParse(attrfd.GetParamId(0), out var ct) && ct >= 0) {
@@ -854,11 +854,11 @@ namespace Hlsl2Python
                         canUnroll = true;
                         var newLoop = new Dsl.FunctionData();
                         newLoop.Name = new Dsl.ValueData("block");
-                        newLoop.SetParamClass((int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_STATEMENT);
+                        newLoop.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_STATEMENT);
                         whileFunc.Name.SetId("if");
                         var ifFunc = new Dsl.FunctionData();
                         ifFunc.Name = new Dsl.ValueData("if");
-                        ifFunc.SetParamClass((int)Dsl.FunctionData.ParamClassEnum.PARAM_CLASS_PARENTHESIS);
+                        ifFunc.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS);
                         ifFunc.AddParam(new Dsl.ValueData("true", Dsl.ValueData.ID_TOKEN));
                         var tmplBody = Dsl.Utility.CloneDsl(doBody) as Dsl.FunctionData;
                         Debug.Assert(null != tmplBody);
