@@ -741,7 +741,7 @@ namespace Hlsl2Python
                             if (null != arrNums && arrNums.Count == 1) {
                                 var v = funcData.GetParam(1) as Dsl.FunctionData;
                                 if (null != v && v.IsHighOrder
-                                    && v.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS
+                                    && v.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES
                                     && v.LowerOrderFunction.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET) {
                                     //In GLSL, arrays can be assigned using initialization syntax, but HLSL does not support this. In such
                                     //cases, a temporary variable needs to be defined and initialized, and then assigned to the array variable
@@ -865,7 +865,7 @@ namespace Hlsl2Python
                     else {
                         funcData.Name.SetId("return");
                     }
-                    funcData.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS);
+                    funcData.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES);
                     funcData.Params.Clear();
                     funcData.AddParam(v);
                 }
@@ -925,7 +925,7 @@ namespace Hlsl2Python
             if (null != funcData) {
                 if (funcData.IsHighOrder) {
                     var lowerFunc = funcData.LowerOrderFunction;
-                    if (lowerFunc.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET && funcData.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS) {
+                    if (lowerFunc.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET && funcData.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES) {
                         //arr init to call arr init func
                         int size = funcData.GetParamNum();
                         if (lowerFunc.GetParamNum() == 1) {
@@ -1001,11 +1001,11 @@ namespace Hlsl2Python
         }
         private static void TransformGlslCall(Dsl.FunctionData call)
         {
-            if (!call.HaveId() && call.GetParamNum() == 1 && call.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS) {
+            if (!call.HaveId() && call.GetParamNum() == 1 && call.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES) {
                 var pp = call.GetParam(0);
                 var innerCall = pp as Dsl.FunctionData;
                 if (null != innerCall) {
-                    if (!innerCall.HaveId() && innerCall.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS) {
+                    if (!innerCall.HaveId() && innerCall.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES) {
                         call.ClearParams();
                         call.Params.AddRange(innerCall.Params);
                         TransformGlslCall(call);
@@ -1153,7 +1153,7 @@ namespace Hlsl2Python
 
                         var newParam = new Dsl.FunctionData();
                         newParam.Name = new Dsl.ValueData("ivec3", Dsl.ValueData.ID_TOKEN);
-                        newParam.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS);
+                        newParam.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES);
                         newParam.AddParam(param2);
                         newParam.AddParam(param3);
                         call.Params.RemoveAt(2);
@@ -1179,7 +1179,7 @@ namespace Hlsl2Python
                     }
                     if (hasMat && !hasScalar) {
                         call.Name.SetId("glsl_mul");
-                        call.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS);
+                        call.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES);
                         call.GetParam(0).SetSeparator(Dsl.AbstractSyntaxComponent.SEPARATOR_COMMA);
                     }
                 }
@@ -1202,7 +1202,7 @@ namespace Hlsl2Python
 
                         var newCall = new Dsl.FunctionData();
                         newCall.Name = new Dsl.ValueData("glsl_mul");
-                        newCall.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS);
+                        newCall.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES);
 
                         Dsl.ISyntaxComponent nv;
                         var v = call.GetParam(0);
@@ -1483,7 +1483,7 @@ namespace Hlsl2Python
                                 }
                             }
                         }
-                    case (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS: {
+                    case (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES: {
                             List<string> argTypes = new List<string>();
                             foreach (var p in funcData.Params) {
                                 string type = GlslTypeInference(p);
@@ -1810,7 +1810,7 @@ namespace Hlsl2Python
                     else if(f_.HaveId() && f_.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET) {
                         varNamePart = func;
                     }
-                    else if (f_.HaveId() && f_.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS) {
+                    else if (f_.HaveId() && f_.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES) {
                         varNamePart = func;
                     }
                     else {

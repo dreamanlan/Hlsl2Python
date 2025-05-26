@@ -847,7 +847,7 @@ namespace Hlsl2Python
             vType.SetSeparator(Dsl.AbstractSyntaxComponent.SEPARATOR_COMMA);
 
             varFunc.Name = new Dsl.ValueData("var");
-            varFunc.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS);
+            varFunc.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES);
             vSpec.Name = new Dsl.ValueData("spec");
             vSpec.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_BRACKET);
             vSpec.AddParam("nothing");
@@ -882,7 +882,7 @@ namespace Hlsl2Python
             var ifHead = new Dsl.FunctionData();
 
             ifHead.Name = new Dsl.ValueData(ifId);
-            ifHead.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS);
+            ifHead.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES);
 
             var andNotExp = BuildAndNotExpression(boolVarNames);
             ifHead.AddParam(andNotExp);
@@ -903,7 +903,7 @@ namespace Hlsl2Python
             var ifHead = new Dsl.FunctionData();
 
             ifHead.Name = new Dsl.ValueData(ifId);
-            ifHead.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS);
+            ifHead.SetParamClass((int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES);
 
             var orExp = BuildOrExpression(boolVarNames);
             ifHead.AddParam(orExp);

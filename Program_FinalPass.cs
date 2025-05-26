@@ -938,7 +938,7 @@ namespace Hlsl2Python
                 //There is only one parameter inside the parentheses, so no parentheses are needed for output (operators have been
                 //translated to function calls or assignment expressions, and parentheses have already been added during the output
                 //of assignment expressions).
-                if (!func.HaveId() && func.GetParamNum() == 1 && func.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS) {
+                if (!func.HaveId() && func.GetParamNum() == 1 && func.GetParamClassUnmasked() == (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES) {
                     var pp = func.GetParam(0);
                     var innerCall = pp as Dsl.FunctionData;
                     if (null != innerCall) {
@@ -1157,7 +1157,7 @@ namespace Hlsl2Python
                 if (func.IsHighOrder) {
                     TransformCall(func, sb, contextInfo, indent, ref resultType, out isVarValRef, out nameOrConst);
                 }
-                else if (func.GetParamClassUnmasked() != (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESIS) {
+                else if (func.GetParamClassUnmasked() != (int)Dsl.ParamClassEnum.PARAM_CLASS_PARENTHESES) {
                     TransformCall(func, sb, contextInfo, indent, ref resultType, out isVarValRef, out nameOrConst);
                 }
                 else {
