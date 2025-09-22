@@ -2,355 +2,698 @@
 # these code generated from gen_hlsl_lib_numpy_swizzle.dsl
 #---begin---
 
-g_x_index = torch.asarray([0], device=device).squeeze(0)
-g_y_index = torch.asarray([1], device=device).squeeze(0)
-g_z_index = torch.asarray([2], device=device).squeeze(0)
-g_w_index = torch.asarray([3], device=device).squeeze(0)
-g_xx_index = torch.asarray([0, 0], device=device)
-g_xy_index = torch.asarray([0, 1], device=device)
-g_xz_index = torch.asarray([0, 2], device=device)
-g_xw_index = torch.asarray([0, 3], device=device)
-g_yx_index = torch.asarray([1, 0], device=device)
-g_yy_index = torch.asarray([1, 1], device=device)
-g_yz_index = torch.asarray([1, 2], device=device)
-g_yw_index = torch.asarray([1, 3], device=device)
-g_zx_index = torch.asarray([2, 0], device=device)
-g_zy_index = torch.asarray([2, 1], device=device)
-g_zz_index = torch.asarray([2, 2], device=device)
-g_zw_index = torch.asarray([2, 3], device=device)
-g_wx_index = torch.asarray([3, 0], device=device)
-g_wy_index = torch.asarray([3, 1], device=device)
-g_wz_index = torch.asarray([3, 2], device=device)
-g_ww_index = torch.asarray([3, 3], device=device)
-g_xxx_index = torch.asarray([0, 0, 0], device=device)
-g_xxy_index = torch.asarray([0, 0, 1], device=device)
-g_xxz_index = torch.asarray([0, 0, 2], device=device)
-g_xxw_index = torch.asarray([0, 0, 3], device=device)
-g_xyx_index = torch.asarray([0, 1, 0], device=device)
-g_xyy_index = torch.asarray([0, 1, 1], device=device)
-g_xyz_index = torch.asarray([0, 1, 2], device=device)
-g_xyw_index = torch.asarray([0, 1, 3], device=device)
-g_xzx_index = torch.asarray([0, 2, 0], device=device)
-g_xzy_index = torch.asarray([0, 2, 1], device=device)
-g_xzz_index = torch.asarray([0, 2, 2], device=device)
-g_xzw_index = torch.asarray([0, 2, 3], device=device)
-g_xwx_index = torch.asarray([0, 3, 0], device=device)
-g_xwy_index = torch.asarray([0, 3, 1], device=device)
-g_xwz_index = torch.asarray([0, 3, 2], device=device)
-g_xww_index = torch.asarray([0, 3, 3], device=device)
-g_yxx_index = torch.asarray([1, 0, 0], device=device)
-g_yxy_index = torch.asarray([1, 0, 1], device=device)
-g_yxz_index = torch.asarray([1, 0, 2], device=device)
-g_yxw_index = torch.asarray([1, 0, 3], device=device)
-g_yyx_index = torch.asarray([1, 1, 0], device=device)
-g_yyy_index = torch.asarray([1, 1, 1], device=device)
-g_yyz_index = torch.asarray([1, 1, 2], device=device)
-g_yyw_index = torch.asarray([1, 1, 3], device=device)
-g_yzx_index = torch.asarray([1, 2, 0], device=device)
-g_yzy_index = torch.asarray([1, 2, 1], device=device)
-g_yzz_index = torch.asarray([1, 2, 2], device=device)
-g_yzw_index = torch.asarray([1, 2, 3], device=device)
-g_ywx_index = torch.asarray([1, 3, 0], device=device)
-g_ywy_index = torch.asarray([1, 3, 1], device=device)
-g_ywz_index = torch.asarray([1, 3, 2], device=device)
-g_yww_index = torch.asarray([1, 3, 3], device=device)
-g_zxx_index = torch.asarray([2, 0, 0], device=device)
-g_zxy_index = torch.asarray([2, 0, 1], device=device)
-g_zxz_index = torch.asarray([2, 0, 2], device=device)
-g_zxw_index = torch.asarray([2, 0, 3], device=device)
-g_zyx_index = torch.asarray([2, 1, 0], device=device)
-g_zyy_index = torch.asarray([2, 1, 1], device=device)
-g_zyz_index = torch.asarray([2, 1, 2], device=device)
-g_zyw_index = torch.asarray([2, 1, 3], device=device)
-g_zzx_index = torch.asarray([2, 2, 0], device=device)
-g_zzy_index = torch.asarray([2, 2, 1], device=device)
-g_zzz_index = torch.asarray([2, 2, 2], device=device)
-g_zzw_index = torch.asarray([2, 2, 3], device=device)
-g_zwx_index = torch.asarray([2, 3, 0], device=device)
-g_zwy_index = torch.asarray([2, 3, 1], device=device)
-g_zwz_index = torch.asarray([2, 3, 2], device=device)
-g_zww_index = torch.asarray([2, 3, 3], device=device)
-g_wxx_index = torch.asarray([3, 0, 0], device=device)
-g_wxy_index = torch.asarray([3, 0, 1], device=device)
-g_wxz_index = torch.asarray([3, 0, 2], device=device)
-g_wxw_index = torch.asarray([3, 0, 3], device=device)
-g_wyx_index = torch.asarray([3, 1, 0], device=device)
-g_wyy_index = torch.asarray([3, 1, 1], device=device)
-g_wyz_index = torch.asarray([3, 1, 2], device=device)
-g_wyw_index = torch.asarray([3, 1, 3], device=device)
-g_wzx_index = torch.asarray([3, 2, 0], device=device)
-g_wzy_index = torch.asarray([3, 2, 1], device=device)
-g_wzz_index = torch.asarray([3, 2, 2], device=device)
-g_wzw_index = torch.asarray([3, 2, 3], device=device)
-g_wwx_index = torch.asarray([3, 3, 0], device=device)
-g_wwy_index = torch.asarray([3, 3, 1], device=device)
-g_wwz_index = torch.asarray([3, 3, 2], device=device)
-g_www_index = torch.asarray([3, 3, 3], device=device)
-g_xxxx_index = torch.asarray([0, 0, 0, 0], device=device)
-g_xxxy_index = torch.asarray([0, 0, 0, 1], device=device)
-g_xxxz_index = torch.asarray([0, 0, 0, 2], device=device)
-g_xxxw_index = torch.asarray([0, 0, 0, 3], device=device)
-g_xxyx_index = torch.asarray([0, 0, 1, 0], device=device)
-g_xxyy_index = torch.asarray([0, 0, 1, 1], device=device)
-g_xxyz_index = torch.asarray([0, 0, 1, 2], device=device)
-g_xxyw_index = torch.asarray([0, 0, 1, 3], device=device)
-g_xxzx_index = torch.asarray([0, 0, 2, 0], device=device)
-g_xxzy_index = torch.asarray([0, 0, 2, 1], device=device)
-g_xxzz_index = torch.asarray([0, 0, 2, 2], device=device)
-g_xxzw_index = torch.asarray([0, 0, 2, 3], device=device)
-g_xxwx_index = torch.asarray([0, 0, 3, 0], device=device)
-g_xxwy_index = torch.asarray([0, 0, 3, 1], device=device)
-g_xxwz_index = torch.asarray([0, 0, 3, 2], device=device)
-g_xxww_index = torch.asarray([0, 0, 3, 3], device=device)
-g_xyxx_index = torch.asarray([0, 1, 0, 0], device=device)
-g_xyxy_index = torch.asarray([0, 1, 0, 1], device=device)
-g_xyxz_index = torch.asarray([0, 1, 0, 2], device=device)
-g_xyxw_index = torch.asarray([0, 1, 0, 3], device=device)
-g_xyyx_index = torch.asarray([0, 1, 1, 0], device=device)
-g_xyyy_index = torch.asarray([0, 1, 1, 1], device=device)
-g_xyyz_index = torch.asarray([0, 1, 1, 2], device=device)
-g_xyyw_index = torch.asarray([0, 1, 1, 3], device=device)
-g_xyzx_index = torch.asarray([0, 1, 2, 0], device=device)
-g_xyzy_index = torch.asarray([0, 1, 2, 1], device=device)
-g_xyzz_index = torch.asarray([0, 1, 2, 2], device=device)
-g_xyzw_index = torch.asarray([0, 1, 2, 3], device=device)
-g_xywx_index = torch.asarray([0, 1, 3, 0], device=device)
-g_xywy_index = torch.asarray([0, 1, 3, 1], device=device)
-g_xywz_index = torch.asarray([0, 1, 3, 2], device=device)
-g_xyww_index = torch.asarray([0, 1, 3, 3], device=device)
-g_xzxx_index = torch.asarray([0, 2, 0, 0], device=device)
-g_xzxy_index = torch.asarray([0, 2, 0, 1], device=device)
-g_xzxz_index = torch.asarray([0, 2, 0, 2], device=device)
-g_xzxw_index = torch.asarray([0, 2, 0, 3], device=device)
-g_xzyx_index = torch.asarray([0, 2, 1, 0], device=device)
-g_xzyy_index = torch.asarray([0, 2, 1, 1], device=device)
-g_xzyz_index = torch.asarray([0, 2, 1, 2], device=device)
-g_xzyw_index = torch.asarray([0, 2, 1, 3], device=device)
-g_xzzx_index = torch.asarray([0, 2, 2, 0], device=device)
-g_xzzy_index = torch.asarray([0, 2, 2, 1], device=device)
-g_xzzz_index = torch.asarray([0, 2, 2, 2], device=device)
-g_xzzw_index = torch.asarray([0, 2, 2, 3], device=device)
-g_xzwx_index = torch.asarray([0, 2, 3, 0], device=device)
-g_xzwy_index = torch.asarray([0, 2, 3, 1], device=device)
-g_xzwz_index = torch.asarray([0, 2, 3, 2], device=device)
-g_xzww_index = torch.asarray([0, 2, 3, 3], device=device)
-g_xwxx_index = torch.asarray([0, 3, 0, 0], device=device)
-g_xwxy_index = torch.asarray([0, 3, 0, 1], device=device)
-g_xwxz_index = torch.asarray([0, 3, 0, 2], device=device)
-g_xwxw_index = torch.asarray([0, 3, 0, 3], device=device)
-g_xwyx_index = torch.asarray([0, 3, 1, 0], device=device)
-g_xwyy_index = torch.asarray([0, 3, 1, 1], device=device)
-g_xwyz_index = torch.asarray([0, 3, 1, 2], device=device)
-g_xwyw_index = torch.asarray([0, 3, 1, 3], device=device)
-g_xwzx_index = torch.asarray([0, 3, 2, 0], device=device)
-g_xwzy_index = torch.asarray([0, 3, 2, 1], device=device)
-g_xwzz_index = torch.asarray([0, 3, 2, 2], device=device)
-g_xwzw_index = torch.asarray([0, 3, 2, 3], device=device)
-g_xwwx_index = torch.asarray([0, 3, 3, 0], device=device)
-g_xwwy_index = torch.asarray([0, 3, 3, 1], device=device)
-g_xwwz_index = torch.asarray([0, 3, 3, 2], device=device)
-g_xwww_index = torch.asarray([0, 3, 3, 3], device=device)
-g_yxxx_index = torch.asarray([1, 0, 0, 0], device=device)
-g_yxxy_index = torch.asarray([1, 0, 0, 1], device=device)
-g_yxxz_index = torch.asarray([1, 0, 0, 2], device=device)
-g_yxxw_index = torch.asarray([1, 0, 0, 3], device=device)
-g_yxyx_index = torch.asarray([1, 0, 1, 0], device=device)
-g_yxyy_index = torch.asarray([1, 0, 1, 1], device=device)
-g_yxyz_index = torch.asarray([1, 0, 1, 2], device=device)
-g_yxyw_index = torch.asarray([1, 0, 1, 3], device=device)
-g_yxzx_index = torch.asarray([1, 0, 2, 0], device=device)
-g_yxzy_index = torch.asarray([1, 0, 2, 1], device=device)
-g_yxzz_index = torch.asarray([1, 0, 2, 2], device=device)
-g_yxzw_index = torch.asarray([1, 0, 2, 3], device=device)
-g_yxwx_index = torch.asarray([1, 0, 3, 0], device=device)
-g_yxwy_index = torch.asarray([1, 0, 3, 1], device=device)
-g_yxwz_index = torch.asarray([1, 0, 3, 2], device=device)
-g_yxww_index = torch.asarray([1, 0, 3, 3], device=device)
-g_yyxx_index = torch.asarray([1, 1, 0, 0], device=device)
-g_yyxy_index = torch.asarray([1, 1, 0, 1], device=device)
-g_yyxz_index = torch.asarray([1, 1, 0, 2], device=device)
-g_yyxw_index = torch.asarray([1, 1, 0, 3], device=device)
-g_yyyx_index = torch.asarray([1, 1, 1, 0], device=device)
-g_yyyy_index = torch.asarray([1, 1, 1, 1], device=device)
-g_yyyz_index = torch.asarray([1, 1, 1, 2], device=device)
-g_yyyw_index = torch.asarray([1, 1, 1, 3], device=device)
-g_yyzx_index = torch.asarray([1, 1, 2, 0], device=device)
-g_yyzy_index = torch.asarray([1, 1, 2, 1], device=device)
-g_yyzz_index = torch.asarray([1, 1, 2, 2], device=device)
-g_yyzw_index = torch.asarray([1, 1, 2, 3], device=device)
-g_yywx_index = torch.asarray([1, 1, 3, 0], device=device)
-g_yywy_index = torch.asarray([1, 1, 3, 1], device=device)
-g_yywz_index = torch.asarray([1, 1, 3, 2], device=device)
-g_yyww_index = torch.asarray([1, 1, 3, 3], device=device)
-g_yzxx_index = torch.asarray([1, 2, 0, 0], device=device)
-g_yzxy_index = torch.asarray([1, 2, 0, 1], device=device)
-g_yzxz_index = torch.asarray([1, 2, 0, 2], device=device)
-g_yzxw_index = torch.asarray([1, 2, 0, 3], device=device)
-g_yzyx_index = torch.asarray([1, 2, 1, 0], device=device)
-g_yzyy_index = torch.asarray([1, 2, 1, 1], device=device)
-g_yzyz_index = torch.asarray([1, 2, 1, 2], device=device)
-g_yzyw_index = torch.asarray([1, 2, 1, 3], device=device)
-g_yzzx_index = torch.asarray([1, 2, 2, 0], device=device)
-g_yzzy_index = torch.asarray([1, 2, 2, 1], device=device)
-g_yzzz_index = torch.asarray([1, 2, 2, 2], device=device)
-g_yzzw_index = torch.asarray([1, 2, 2, 3], device=device)
-g_yzwx_index = torch.asarray([1, 2, 3, 0], device=device)
-g_yzwy_index = torch.asarray([1, 2, 3, 1], device=device)
-g_yzwz_index = torch.asarray([1, 2, 3, 2], device=device)
-g_yzww_index = torch.asarray([1, 2, 3, 3], device=device)
-g_ywxx_index = torch.asarray([1, 3, 0, 0], device=device)
-g_ywxy_index = torch.asarray([1, 3, 0, 1], device=device)
-g_ywxz_index = torch.asarray([1, 3, 0, 2], device=device)
-g_ywxw_index = torch.asarray([1, 3, 0, 3], device=device)
-g_ywyx_index = torch.asarray([1, 3, 1, 0], device=device)
-g_ywyy_index = torch.asarray([1, 3, 1, 1], device=device)
-g_ywyz_index = torch.asarray([1, 3, 1, 2], device=device)
-g_ywyw_index = torch.asarray([1, 3, 1, 3], device=device)
-g_ywzx_index = torch.asarray([1, 3, 2, 0], device=device)
-g_ywzy_index = torch.asarray([1, 3, 2, 1], device=device)
-g_ywzz_index = torch.asarray([1, 3, 2, 2], device=device)
-g_ywzw_index = torch.asarray([1, 3, 2, 3], device=device)
-g_ywwx_index = torch.asarray([1, 3, 3, 0], device=device)
-g_ywwy_index = torch.asarray([1, 3, 3, 1], device=device)
-g_ywwz_index = torch.asarray([1, 3, 3, 2], device=device)
-g_ywww_index = torch.asarray([1, 3, 3, 3], device=device)
-g_zxxx_index = torch.asarray([2, 0, 0, 0], device=device)
-g_zxxy_index = torch.asarray([2, 0, 0, 1], device=device)
-g_zxxz_index = torch.asarray([2, 0, 0, 2], device=device)
-g_zxxw_index = torch.asarray([2, 0, 0, 3], device=device)
-g_zxyx_index = torch.asarray([2, 0, 1, 0], device=device)
-g_zxyy_index = torch.asarray([2, 0, 1, 1], device=device)
-g_zxyz_index = torch.asarray([2, 0, 1, 2], device=device)
-g_zxyw_index = torch.asarray([2, 0, 1, 3], device=device)
-g_zxzx_index = torch.asarray([2, 0, 2, 0], device=device)
-g_zxzy_index = torch.asarray([2, 0, 2, 1], device=device)
-g_zxzz_index = torch.asarray([2, 0, 2, 2], device=device)
-g_zxzw_index = torch.asarray([2, 0, 2, 3], device=device)
-g_zxwx_index = torch.asarray([2, 0, 3, 0], device=device)
-g_zxwy_index = torch.asarray([2, 0, 3, 1], device=device)
-g_zxwz_index = torch.asarray([2, 0, 3, 2], device=device)
-g_zxww_index = torch.asarray([2, 0, 3, 3], device=device)
-g_zyxx_index = torch.asarray([2, 1, 0, 0], device=device)
-g_zyxy_index = torch.asarray([2, 1, 0, 1], device=device)
-g_zyxz_index = torch.asarray([2, 1, 0, 2], device=device)
-g_zyxw_index = torch.asarray([2, 1, 0, 3], device=device)
-g_zyyx_index = torch.asarray([2, 1, 1, 0], device=device)
-g_zyyy_index = torch.asarray([2, 1, 1, 1], device=device)
-g_zyyz_index = torch.asarray([2, 1, 1, 2], device=device)
-g_zyyw_index = torch.asarray([2, 1, 1, 3], device=device)
-g_zyzx_index = torch.asarray([2, 1, 2, 0], device=device)
-g_zyzy_index = torch.asarray([2, 1, 2, 1], device=device)
-g_zyzz_index = torch.asarray([2, 1, 2, 2], device=device)
-g_zyzw_index = torch.asarray([2, 1, 2, 3], device=device)
-g_zywx_index = torch.asarray([2, 1, 3, 0], device=device)
-g_zywy_index = torch.asarray([2, 1, 3, 1], device=device)
-g_zywz_index = torch.asarray([2, 1, 3, 2], device=device)
-g_zyww_index = torch.asarray([2, 1, 3, 3], device=device)
-g_zzxx_index = torch.asarray([2, 2, 0, 0], device=device)
-g_zzxy_index = torch.asarray([2, 2, 0, 1], device=device)
-g_zzxz_index = torch.asarray([2, 2, 0, 2], device=device)
-g_zzxw_index = torch.asarray([2, 2, 0, 3], device=device)
-g_zzyx_index = torch.asarray([2, 2, 1, 0], device=device)
-g_zzyy_index = torch.asarray([2, 2, 1, 1], device=device)
-g_zzyz_index = torch.asarray([2, 2, 1, 2], device=device)
-g_zzyw_index = torch.asarray([2, 2, 1, 3], device=device)
-g_zzzx_index = torch.asarray([2, 2, 2, 0], device=device)
-g_zzzy_index = torch.asarray([2, 2, 2, 1], device=device)
-g_zzzz_index = torch.asarray([2, 2, 2, 2], device=device)
-g_zzzw_index = torch.asarray([2, 2, 2, 3], device=device)
-g_zzwx_index = torch.asarray([2, 2, 3, 0], device=device)
-g_zzwy_index = torch.asarray([2, 2, 3, 1], device=device)
-g_zzwz_index = torch.asarray([2, 2, 3, 2], device=device)
-g_zzww_index = torch.asarray([2, 2, 3, 3], device=device)
-g_zwxx_index = torch.asarray([2, 3, 0, 0], device=device)
-g_zwxy_index = torch.asarray([2, 3, 0, 1], device=device)
-g_zwxz_index = torch.asarray([2, 3, 0, 2], device=device)
-g_zwxw_index = torch.asarray([2, 3, 0, 3], device=device)
-g_zwyx_index = torch.asarray([2, 3, 1, 0], device=device)
-g_zwyy_index = torch.asarray([2, 3, 1, 1], device=device)
-g_zwyz_index = torch.asarray([2, 3, 1, 2], device=device)
-g_zwyw_index = torch.asarray([2, 3, 1, 3], device=device)
-g_zwzx_index = torch.asarray([2, 3, 2, 0], device=device)
-g_zwzy_index = torch.asarray([2, 3, 2, 1], device=device)
-g_zwzz_index = torch.asarray([2, 3, 2, 2], device=device)
-g_zwzw_index = torch.asarray([2, 3, 2, 3], device=device)
-g_zwwx_index = torch.asarray([2, 3, 3, 0], device=device)
-g_zwwy_index = torch.asarray([2, 3, 3, 1], device=device)
-g_zwwz_index = torch.asarray([2, 3, 3, 2], device=device)
-g_zwww_index = torch.asarray([2, 3, 3, 3], device=device)
-g_wxxx_index = torch.asarray([3, 0, 0, 0], device=device)
-g_wxxy_index = torch.asarray([3, 0, 0, 1], device=device)
-g_wxxz_index = torch.asarray([3, 0, 0, 2], device=device)
-g_wxxw_index = torch.asarray([3, 0, 0, 3], device=device)
-g_wxyx_index = torch.asarray([3, 0, 1, 0], device=device)
-g_wxyy_index = torch.asarray([3, 0, 1, 1], device=device)
-g_wxyz_index = torch.asarray([3, 0, 1, 2], device=device)
-g_wxyw_index = torch.asarray([3, 0, 1, 3], device=device)
-g_wxzx_index = torch.asarray([3, 0, 2, 0], device=device)
-g_wxzy_index = torch.asarray([3, 0, 2, 1], device=device)
-g_wxzz_index = torch.asarray([3, 0, 2, 2], device=device)
-g_wxzw_index = torch.asarray([3, 0, 2, 3], device=device)
-g_wxwx_index = torch.asarray([3, 0, 3, 0], device=device)
-g_wxwy_index = torch.asarray([3, 0, 3, 1], device=device)
-g_wxwz_index = torch.asarray([3, 0, 3, 2], device=device)
-g_wxww_index = torch.asarray([3, 0, 3, 3], device=device)
-g_wyxx_index = torch.asarray([3, 1, 0, 0], device=device)
-g_wyxy_index = torch.asarray([3, 1, 0, 1], device=device)
-g_wyxz_index = torch.asarray([3, 1, 0, 2], device=device)
-g_wyxw_index = torch.asarray([3, 1, 0, 3], device=device)
-g_wyyx_index = torch.asarray([3, 1, 1, 0], device=device)
-g_wyyy_index = torch.asarray([3, 1, 1, 1], device=device)
-g_wyyz_index = torch.asarray([3, 1, 1, 2], device=device)
-g_wyyw_index = torch.asarray([3, 1, 1, 3], device=device)
-g_wyzx_index = torch.asarray([3, 1, 2, 0], device=device)
-g_wyzy_index = torch.asarray([3, 1, 2, 1], device=device)
-g_wyzz_index = torch.asarray([3, 1, 2, 2], device=device)
-g_wyzw_index = torch.asarray([3, 1, 2, 3], device=device)
-g_wywx_index = torch.asarray([3, 1, 3, 0], device=device)
-g_wywy_index = torch.asarray([3, 1, 3, 1], device=device)
-g_wywz_index = torch.asarray([3, 1, 3, 2], device=device)
-g_wyww_index = torch.asarray([3, 1, 3, 3], device=device)
-g_wzxx_index = torch.asarray([3, 2, 0, 0], device=device)
-g_wzxy_index = torch.asarray([3, 2, 0, 1], device=device)
-g_wzxz_index = torch.asarray([3, 2, 0, 2], device=device)
-g_wzxw_index = torch.asarray([3, 2, 0, 3], device=device)
-g_wzyx_index = torch.asarray([3, 2, 1, 0], device=device)
-g_wzyy_index = torch.asarray([3, 2, 1, 1], device=device)
-g_wzyz_index = torch.asarray([3, 2, 1, 2], device=device)
-g_wzyw_index = torch.asarray([3, 2, 1, 3], device=device)
-g_wzzx_index = torch.asarray([3, 2, 2, 0], device=device)
-g_wzzy_index = torch.asarray([3, 2, 2, 1], device=device)
-g_wzzz_index = torch.asarray([3, 2, 2, 2], device=device)
-g_wzzw_index = torch.asarray([3, 2, 2, 3], device=device)
-g_wzwx_index = torch.asarray([3, 2, 3, 0], device=device)
-g_wzwy_index = torch.asarray([3, 2, 3, 1], device=device)
-g_wzwz_index = torch.asarray([3, 2, 3, 2], device=device)
-g_wzww_index = torch.asarray([3, 2, 3, 3], device=device)
-g_wwxx_index = torch.asarray([3, 3, 0, 0], device=device)
-g_wwxy_index = torch.asarray([3, 3, 0, 1], device=device)
-g_wwxz_index = torch.asarray([3, 3, 0, 2], device=device)
-g_wwxw_index = torch.asarray([3, 3, 0, 3], device=device)
-g_wwyx_index = torch.asarray([3, 3, 1, 0], device=device)
-g_wwyy_index = torch.asarray([3, 3, 1, 1], device=device)
-g_wwyz_index = torch.asarray([3, 3, 1, 2], device=device)
-g_wwyw_index = torch.asarray([3, 3, 1, 3], device=device)
-g_wwzx_index = torch.asarray([3, 3, 2, 0], device=device)
-g_wwzy_index = torch.asarray([3, 3, 2, 1], device=device)
-g_wwzz_index = torch.asarray([3, 3, 2, 2], device=device)
-g_wwzw_index = torch.asarray([3, 3, 2, 3], device=device)
-g_wwwx_index = torch.asarray([3, 3, 3, 0], device=device)
-g_wwwy_index = torch.asarray([3, 3, 3, 1], device=device)
-g_wwwz_index = torch.asarray([3, 3, 3, 2], device=device)
-g_wwww_index = torch.asarray([3, 3, 3, 3], device=device)
+DslCalculator error, unknown func stringbuildertostring
+0.squeeze(0)
+DslCalculator error, unknown func stringbuildertostring
+0.squeeze(0)
+DslCalculator error, unknown func stringbuildertostring
+0.squeeze(0)
+DslCalculator error, unknown func stringbuildertostring
+0.squeeze(0)
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
+DslCalculator error, unknown func stringbuildertostring
+0
 
 def swizzle_n_x(v):
     return v
+DslCalculator error, unknown func stringbuildertostring
 def swizzle_n_xx(v):
-    return torch.asarray([v, v], device=device)
+    return torch.asarray([0], device=device)
+DslCalculator error, unknown func stringbuildertostring
 def swizzle_n_xxx(v):
-    return torch.asarray([v, v, v], device=device)
+    return torch.asarray([0], device=device)
+DslCalculator error, unknown func stringbuildertostring
 def swizzle_n_xxxx(v):
-    return torch.asarray([v, v, v, v], device=device)
+    return torch.asarray([0], device=device)
 def swizzle_n2_x(v):
     v = get_vm_gpu_tensor(v)
     return v.index_select(0, g_x_index).squeeze(0)
@@ -2232,10 +2575,12 @@ def swizzle_t_n_xxx(v):
     return v.unsqueeze(1).index_select(1, g_xxx_index)
 def swizzle_t_n_xxxx(v):
     return v.unsqueeze(1).index_select(1, g_xxxx_index)
+DslCalculator error, unknown func stringbuildertostring
 def swizzle_t_n2_x(v):
-    return torch.clone(v[..., 0])
+    return torch.clone(0)
+DslCalculator error, unknown func stringbuildertostring
 def swizzle_t_n2_y(v):
-    return torch.clone(v[..., 1])
+    return torch.clone(0)
 def swizzle_t_n2_xx(v):
     return v.index_select(1, g_xx_index)
 def swizzle_t_n2_xy(v):
@@ -2292,12 +2637,15 @@ def swizzle_t_n2_yyyx(v):
     return v.index_select(1, g_yyyx_index)
 def swizzle_t_n2_yyyy(v):
     return v.index_select(1, g_yyyy_index)
+DslCalculator error, unknown func stringbuildertostring
 def swizzle_t_n3_x(v):
-    return torch.clone(v[..., 0])
+    return torch.clone(0)
+DslCalculator error, unknown func stringbuildertostring
 def swizzle_t_n3_y(v):
-    return torch.clone(v[..., 1])
+    return torch.clone(0)
+DslCalculator error, unknown func stringbuildertostring
 def swizzle_t_n3_z(v):
-    return torch.clone(v[..., 2])
+    return torch.clone(0)
 def swizzle_t_n3_xx(v):
     return v.index_select(1, g_xx_index)
 def swizzle_t_n3_xy(v):
@@ -2532,14 +2880,18 @@ def swizzle_t_n3_zzzy(v):
     return v.index_select(1, g_zzzy_index)
 def swizzle_t_n3_zzzz(v):
     return v.index_select(1, g_zzzz_index)
+DslCalculator error, unknown func stringbuildertostring
 def swizzle_t_n4_x(v):
-    return torch.clone(v[..., 0])
+    return torch.clone(0)
+DslCalculator error, unknown func stringbuildertostring
 def swizzle_t_n4_y(v):
-    return torch.clone(v[..., 1])
+    return torch.clone(0)
+DslCalculator error, unknown func stringbuildertostring
 def swizzle_t_n4_z(v):
-    return torch.clone(v[..., 2])
+    return torch.clone(0)
+DslCalculator error, unknown func stringbuildertostring
 def swizzle_t_n4_w(v):
-    return torch.clone(v[..., 3])
+    return torch.clone(0)
 def swizzle_t_n4_xx(v):
     return v.index_select(1, g_xx_index)
 def swizzle_t_n4_xy(v):
