@@ -1093,7 +1093,7 @@ params(var(spec[in, nothing ], float3, p ), var(spec[in, nothing ], float, m ) )
 func(spec[nothing ], float2, repRot )
 params(var(spec[in, nothing ], float2, p ), var(spec[in, nothing ], float, aIt ) )
 {
-	return <- (mul(rot(- (6.2831853070000001 / aIt ) * floor((atan2(p.x , p.y  ) / 6.2831853070000001 + 0.5 ) * aIt ) - 3.141593 - 6.2831853070000001 / (aIt * 2.0 ) ), p ) );
+	return <- (mul(rot(- (6.2831853070000001 / aIt ) * floor((atan_2(p.x , p.y  ) / 6.2831853070000001 + 0.5 ) * aIt ) - 3.141593 - 6.2831853070000001 / (aIt * 2.0 ) ), p ) );
 };
 func(spec[nothing ], float, flower )
 params(var(spec[in, nothing ], float3, p ), var(spec[in, nothing ], float, aIt ), var(spec[in, nothing ], float, m ) )
@@ -1118,7 +1118,7 @@ params(var(spec[in, nothing ], float3, _pp ), var(spec[inout, nothing ], int, m 
 		var(spec[nothing ], float, g ) = 0.0;
 		p = (b = ! b) ? ((p.xzy)) : ((p.zxy));
 		var(spec[nothing ], float, r ) = length(p.xy  );
-		var(spec[nothing ], float3, pp ) = float3(log(r ) - gameTime * (0.10000000000000001 + ((g + 1.0 ) * 0.050999999999999997 ) ), atan2(p.x , p.y  ), p.z  / r );
+		var(spec[nothing ], float3, pp ) = float3(log(r ) - gameTime * (0.10000000000000001 + ((g + 1.0 ) * 0.050999999999999997 ) ), atan_2(p.x , p.y  ), p.z  / r );
 		var(spec[nothing ], float, e ) = dot(pp.xy , n ),
 		var(spec[nothing ], float, f ) = dot(pp.xy , float2(n.y , - n.x  ) );
 		block
@@ -1133,7 +1133,7 @@ params(var(spec[in, nothing ], float3, _pp ), var(spec[inout, nothing ], int, m 
 		var(spec[nothing ], float, d ) = (length(float2(e, pp.z  ) ) - 0.014999999999999999 / r ) * r;
 		var(spec[nothing ], bool, j ) = i == 0.0;
 		dd = opSmoothUnion(dd, d, 0.10000000000000001 );
-		var(spec[nothing ], float, ff ) = flower(float3(e, f, pp.z  + 0.059999999999999998 ) / 0.25, smoothstep(-1.0, 1.0, r * r ) * (j ? 5.0 : 2.0 ), smoothstep(1.0, -0.0, r * r ) ) * 0.25 * r;
+		var(spec[nothing ], float, ff ) = flower(float3(e, f, pp.z  + 0.059999999999999998 ) / 0.25, smooth_step(-1.0, 1.0, r * r ) * (j ? 5.0 : 2.0 ), smooth_step(1.0, -0.0, r * r ) ) * 0.25 * r;
 		ee = min(ee, ff );
 		if(ee == ff )
 		{
@@ -1142,7 +1142,7 @@ params(var(spec[in, nothing ], float3, _pp ), var(spec[inout, nothing ], int, m 
 		g = 1.0;
 		p = (b = ! b) ? ((p.xzy)) : ((p.zxy));
 		var(spec[nothing ], float, r ) = length(p.xy  );
-		var(spec[nothing ], float3, pp ) = float3(log(r ) - gameTime * 0.202, atan2(p.x , p.y  ), p.z  / r );
+		var(spec[nothing ], float3, pp ) = float3(log(r ) - gameTime * 0.202, atan_2(p.x , p.y  ), p.z  / r );
 		var(spec[nothing ], float, e ) = dot(pp.xy , n ),
 		var(spec[nothing ], float, f ) = dot(pp.xy , float2(n.y , - n.x  ) );
 		block
@@ -1157,7 +1157,7 @@ params(var(spec[in, nothing ], float3, _pp ), var(spec[inout, nothing ], int, m 
 		var(spec[nothing ], float, d ) = (length(float2(e, pp.z  ) ) - 0.014999999999999999 / r ) * r;
 		var(spec[nothing ], bool, j ) = i == 0.0;
 		dd = opSmoothUnion(dd, d, 0.10000000000000001 );
-		var(spec[nothing ], float, ff ) = flower(float3(e, f, pp.z  + 0.059999999999999998 ) / 0.25, smoothstep(-1.0, 1.0, r * r ) * (j ? 5.0 : 2.0 ), smoothstep(1.0, -0.0, r * r ) ) * 0.25 * r;
+		var(spec[nothing ], float, ff ) = flower(float3(e, f, pp.z  + 0.059999999999999998 ) / 0.25, smooth_step(-1.0, 1.0, r * r ) * (j ? 5.0 : 2.0 ), smooth_step(1.0, -0.0, r * r ) ) * 0.25 * r;
 		ee = min(ee, ff );
 		if(ee == ff )
 		{
@@ -1166,7 +1166,7 @@ params(var(spec[in, nothing ], float3, _pp ), var(spec[inout, nothing ], int, m 
 		g = 2.0;
 		p = (b = ! b) ? ((p.xzy)) : ((p.zxy));
 		var(spec[nothing ], float, r ) = length(p.xy  );
-		var(spec[nothing ], float3, pp ) = float3(log(r ) - gameTime * 0.253, atan2(p.x , p.y  ), p.z  / r );
+		var(spec[nothing ], float3, pp ) = float3(log(r ) - gameTime * 0.253, atan_2(p.x , p.y  ), p.z  / r );
 		var(spec[nothing ], float, e ) = dot(pp.xy , n ),
 		var(spec[nothing ], float, f ) = dot(pp.xy , float2(n.y , - n.x  ) );
 		block
@@ -1181,7 +1181,7 @@ params(var(spec[in, nothing ], float3, _pp ), var(spec[inout, nothing ], int, m 
 		var(spec[nothing ], float, d ) = (length(float2(e, pp.z  ) ) - 0.014999999999999999 / r ) * r;
 		var(spec[nothing ], bool, j ) = i == 0.0;
 		dd = opSmoothUnion(dd, d, 0.10000000000000001 );
-		var(spec[nothing ], float, ff ) = flower(float3(e, f, pp.z  + 0.059999999999999998 ) / 0.25, smoothstep(-1.0, 1.0, r * r ) * (j ? 5.0 : 2.0 ), smoothstep(1.0, -0.0, r * r ) ) * 0.25 * r;
+		var(spec[nothing ], float, ff ) = flower(float3(e, f, pp.z  + 0.059999999999999998 ) / 0.25, smooth_step(-1.0, 1.0, r * r ) * (j ? 5.0 : 2.0 ), smooth_step(1.0, -0.0, r * r ) ) * 0.25 * r;
 		ee = min(ee, ff );
 		if(ee == ff )
 		{
@@ -3035,8 +3035,8 @@ params(var(spec[out, nothing ], float4, fragColor ), var(spec[in, nothing ], flo
 		var(spec[nothing ], float, s ) = pow(max(0.0, dot(r, reflect(ld, n ) ) ), 1.0 );
 		color = lerp(float3(0.5, 0.76300000000000001, 0.91500000000000004 ), glsl_vec3(1.0 ), d );
 		color *= m == 1 ? ((float3(0.90500000000000003,0.17000000000000001,0.29199999999999998))) : ((float3(0.88500000000000001,0.88200000000000001,0.94499999999999995)));
-		color = lerp(color, sky, smoothstep(20.0, 25.0, distance(res.p , c ) ) );
-		color = lerp(color, sky, smoothstep(0.5, 3.0, dot(st, st ) * 10.0 ) );
+		color = lerp(color, sky, smooth_step(20.0, 25.0, distance(res.p , c ) ) );
+		color = lerp(color, sky, smooth_step(0.5, 3.0, dot(st, st ) * 10.0 ) );
 	};
 	fragColor = float4(color, 1.0 );
 };

@@ -1680,7 +1680,7 @@ params(var(spec[in, nothing ], const float3, ro ), var(spec[in, nothing ], const
 func(spec[nothing ], float, terrainMap )
 params(var(spec[in, nothing ], const float3, p ) )
 {
-	return <- ((iChannel1.SampleLevel (s_linear_clamp_sampler, (mul(m2, - p.zx  ) ) * 4.6E-5, 0.0 ).x  * 600.0 ) * smoothstep(820.0, 1000.0, length(p.xz  ) ) - 2.0 + noise(p.xz  * 0.5 ) * 15.0 );
+	return <- ((iChannel1.SampleLevel (s_linear_clamp_sampler, (mul(m2, - p.zx  ) ) * 4.6E-5, 0.0 ).x  * 600.0 ) * smooth_step(820.0, 1000.0, length(p.xz  ) ) - 2.0 + noise(p.xz  * 0.5 ) * 15.0 );
 };
 func(spec[nothing ], float3, raymarchTerrain )
 params(var(spec[in, nothing ], const float3, ro ), var(spec[in, nothing ], const float3, rd ), var(spec[in, nothing ], const float3, bgc ), var(spec[in, nothing ], const float, startdist ), var(spec[inout, nothing ], float, dist ) )
@@ -2196,7 +2196,7 @@ params(var(spec[out, nothing ], float4, fragColor ), var(spec[in, nothing ], flo
 	{
 		ro += refldist * rd;
 		var(spec[nothing ], float2, coord ) = ro.xz ;
-		var(spec[nothing ], float, bumpfactor ) = 0.10000000000000001 * (1.0 - smoothstep(0.0, 60.0, refldist ) );
+		var(spec[nothing ], float, bumpfactor ) = 0.10000000000000001 * (1.0 - smooth_step(0.0, 60.0, refldist ) );
 		var(spec[nothing ], float2, dx ) = float2(0.10000000000000001, 0.0 );
 		var(spec[nothing ], float2, dz ) = float2(0.0, 0.10000000000000001 );
 		normal = float3(0.0, 1.0, 0.0 );

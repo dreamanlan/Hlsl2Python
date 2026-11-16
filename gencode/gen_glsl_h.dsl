@@ -21,9 +21,9 @@ script(main)
 };
 script(writeCast)args($typeNames)
 {
-    looplist($typeNames){
+    loop_list($typeNames){
         $typeName1 = $$;
-        looplist($typeNames){
+        loop_list($typeNames){
             $typeName2 = $$;
             if($typeName1 != $typeName2){
                 writeblock
@@ -39,7 +39,7 @@ script(writeCast)args($typeNames)
 };
 script(writeComp)args($typeNames)
 {
-    looplist($typeNames){
+    loop_list($typeNames){
         $typeName = $$;
 
         writeblock

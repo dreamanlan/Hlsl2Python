@@ -905,7 +905,7 @@ func(spec[nothing], float, gradm)params(var(spec[in, nothing], float3, p)) {
 };
 
 func(spec[nothing], float, mapVol)params(var(spec[nothing], float3, p), var(spec[in, nothing], float, spd)) {
-  var(spec[nothing], float, f) = smoothstep(0.0, 1.25, 1.7 - (p.y + dot(p.xz, p.xz) * 0.62));
+  var(spec[nothing], float, f) = smooth_step(0.0, 1.25, 1.7 - (p.y + dot(p.xz, p.xz) * 0.62));
   var(spec[nothing], float, g) = p.y;
   p.y *= 0.27000000000000002;
   p.z += gradm(p * 0.72999999999999998) * 3.5;
@@ -929,11 +929,11 @@ func(spec[nothing], float3, marchVol)params(var(spec[in, nothing], float3, ro), 
     var(spec[nothing], float, gr) = clamp((r - mapVol(pos + float3(0.0, 0.69999999999999996, 0.0), 0.10000000000000001)) / 0.29999999999999999, 0.0, 1.0);
     var(spec[nothing], float3, lg) = float3(0.71999999999999997, 0.28000000000000003, 0.0) * 1.2 + 1.3 * float3(0.55000000000000004, 0.77000000000000001, 0.90000000000000002) * gr;
     var(spec[nothing], float4, col) = float4(lg, r * r * r * 2.5);
-    col *= smoothstep(t - 0.0, t + 0.20000000000000001, mt);
+    col *= smooth_step(t - 0.0, t + 0.20000000000000001, mt);
     pos.y *= 0.69999999999999996;
     pos.zx *= ((pos.y - 5.0) * 0.14999999999999999 - 0.40000000000000002);
     var(spec[nothing], float, z2) = length(float3(pos.x, pos.y * 0.75 - 0.5, pos.z)) - 0.75;
-    col.a *= smoothstep(0.40000000000000002, 1.2, 0.69999999999999996 - map2(float3(pos.x, pos.y * 0.17000000000000001, pos.z)));
+    col.a *= smooth_step(0.40000000000000002, 1.2, 0.69999999999999996 - map2(float3(pos.x, pos.y * 0.17000000000000001, pos.z)));
     col.rgb *= col.a;
     rz = rz + col * (1.0 - rz.a);
     t += abs(z2) * 0.10000000000000001 + 0.12;
@@ -948,7 +948,7 @@ func(spec[nothing], float3, marchVol)params(var(spec[in, nothing], float3, ro), 
 
 func(spec[nothing], float, mapVol2)params(var(spec[nothing], float3, p), var(spec[in, nothing], float, spd)) {
   p *= 1.3;
-  var(spec[nothing], float, f) = smoothstep(0.20000000000000001, 1.0, 1.3 - (p.y + length(p.xz) * 0.40000000000000002));
+  var(spec[nothing], float, f) = smooth_step(0.20000000000000001, 1.0, 1.3 - (p.y + length(p.xz) * 0.40000000000000002));
   p.y *= 0.050000000000000003;
   p.y += iTime * 1.7;
   var(spec[nothing], float, d) = triNoise3d(p * 1.1000000000000001, spd);
@@ -972,9 +972,9 @@ func(spec[nothing], float3, marchVol2)params(var(spec[in, nothing], float3, ro),
     var(spec[nothing], float, r) = mapVol2(pos, 0.01);
     var(spec[nothing], float3, lg) = float3(0.69999999999999996, 0.29999999999999999, 0.20000000000000001) * 1.5 + 2.0 * float3(1, 1, 1) * 0.75;
     var(spec[nothing], float4, col) = float4(lg, r * r * r * 3.0);
-    col *= smoothstep(t - 0.25, t + 0.20000000000000001, mt);
+    col *= smooth_step(t - 0.25, t + 0.20000000000000001, mt);
     var(spec[nothing], float, z2) = length(float3(pos.x, pos.y * 0.90000000000000002, pos.z)) - 0.90000000000000002;
-    col.a *= smoothstep(0.69999999999999996, 1.7, 1.0 - map2(float3(pos.x * 1.1000000000000001, pos.y * 0.40000000000000002, pos.z * 1.1000000000000001)));
+    col.a *= smooth_step(0.69999999999999996, 1.7, 1.0 - map2(float3(pos.x * 1.1000000000000001, pos.y * 0.40000000000000002, pos.z * 1.1000000000000001)));
     col.rgb *= col.a;
     rz = rz + col * (1.0 - rz.a);
     t += z2 * 0.014999999999999999 + abs(0.34999999999999998 - r) * 0.089999999999999996;
@@ -998,7 +998,7 @@ func(spec[nothing], float3, stars)params(var(spec[in, nothing], float3, p)) {
     var(spec[nothing], float3, q) = frac(p * (0.14999999999999999 * res)) - 0.5;
     var(spec[nothing], float3, id) = floor(p * (0.14999999999999999 * res));
     var(spec[nothing], float2, rn) = hash33(id).xy;
-    var(spec[nothing], float, c2) = 1.0 - smoothstep(0.0, 0.59999999999999998, length(q));
+    var(spec[nothing], float, c2) = 1.0 - smooth_step(0.0, 0.59999999999999998, length(q));
     c2 *= step(rn.x, 5.0000000000000001E-4 + i * i * 0.001);
     c += c2 * (lerp(float3(1.0, 0.48999999999999999, 0.10000000000000001), float3(0.75, 0.90000000000000002, 1.0), rn.y) * 0.25 + 0.75);
     p *= 1.3999999999999999;
