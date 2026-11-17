@@ -1093,7 +1093,7 @@ params(var(spec[in, nothing ], float3, p ), var(spec[in, nothing ], float, m ) )
 func(spec[nothing ], float2, repRot )
 params(var(spec[in, nothing ], float2, p ), var(spec[in, nothing ], float, aIt ) )
 {
-	return <- (mul(rot(- (6.2831853070000001 / aIt ) * floor((atan_2(p.x , p.y  ) / 6.2831853070000001 + 0.5 ) * aIt ) - 3.141593 - 6.2831853070000001 / (aIt * 2.0 ) ), p ) );
+	return <- (mul(rot(- (6.2831853070000001 / aIt ) * floor((atan2(p.x , p.y  ) / 6.2831853070000001 + 0.5 ) * aIt ) - 3.141593 - 6.2831853070000001 / (aIt * 2.0 ) ), p ) );
 };
 func(spec[nothing ], float, flower )
 params(var(spec[in, nothing ], float3, p ), var(spec[in, nothing ], float, aIt ), var(spec[in, nothing ], float, m ) )
@@ -1118,7 +1118,7 @@ params(var(spec[in, nothing ], float3, _pp ), var(spec[inout, nothing ], int, m 
 		var(spec[nothing ], float, g ) = 0.0;
 		p = (b = ! b) ? ((p.xzy)) : ((p.zxy));
 		var(spec[nothing ], float, r ) = length(p.xy  );
-		var(spec[nothing ], float3, pp ) = float3(log(r ) - gameTime * (0.10000000000000001 + ((g + 1.0 ) * 0.050999999999999997 ) ), atan_2(p.x , p.y  ), p.z  / r );
+		var(spec[nothing ], float3, pp ) = float3(log(r ) - gameTime * (0.10000000000000001 + ((g + 1.0 ) * 0.050999999999999997 ) ), atan2(p.x , p.y  ), p.z  / r );
 		var(spec[nothing ], float, e ) = dot(pp.xy , n ),
 		var(spec[nothing ], float, f ) = dot(pp.xy , float2(n.y , - n.x  ) );
 		block
@@ -1142,7 +1142,7 @@ params(var(spec[in, nothing ], float3, _pp ), var(spec[inout, nothing ], int, m 
 		g = 1.0;
 		p = (b = ! b) ? ((p.xzy)) : ((p.zxy));
 		var(spec[nothing ], float, r ) = length(p.xy  );
-		var(spec[nothing ], float3, pp ) = float3(log(r ) - gameTime * 0.202, atan_2(p.x , p.y  ), p.z  / r );
+		var(spec[nothing ], float3, pp ) = float3(log(r ) - gameTime * 0.202, atan2(p.x , p.y  ), p.z  / r );
 		var(spec[nothing ], float, e ) = dot(pp.xy , n ),
 		var(spec[nothing ], float, f ) = dot(pp.xy , float2(n.y , - n.x  ) );
 		block
@@ -1166,7 +1166,7 @@ params(var(spec[in, nothing ], float3, _pp ), var(spec[inout, nothing ], int, m 
 		g = 2.0;
 		p = (b = ! b) ? ((p.xzy)) : ((p.zxy));
 		var(spec[nothing ], float, r ) = length(p.xy  );
-		var(spec[nothing ], float3, pp ) = float3(log(r ) - gameTime * 0.253, atan_2(p.x , p.y  ), p.z  / r );
+		var(spec[nothing ], float3, pp ) = float3(log(r ) - gameTime * 0.253, atan2(p.x , p.y  ), p.z  / r );
 		var(spec[nothing ], float, e ) = dot(pp.xy , n ),
 		var(spec[nothing ], float, f ) = dot(pp.xy , float2(n.y , - n.x  ) );
 		block
