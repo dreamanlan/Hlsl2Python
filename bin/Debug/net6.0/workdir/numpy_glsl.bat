@@ -4,7 +4,7 @@ set workdir=%~dp0
 cd %workdir%
 cd ..
 
-Hlsl2Python -shadertoy -ngl -notorch -gendsl -vectorizebranch -vectorization %workdir%test.glsl
+Hlsl2Python -shadertoy -ngl -no-torch -gen-dsl -vectorize-branch -vectorization %workdir%test.glsl
 
 cd %workdir%
 

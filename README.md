@@ -12,7 +12,7 @@ Updates related to drtoolkit will be updated here.
 ## Command Line #
 
 ```
-Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex2d0~3 tex_file] [-tex3d0~3 tex_file] [-texcube0~3 tex_file] [- shadertoy] [-gl] [-profiling] [-notorch] [-autodiff] [-gendsl] [-rewritedsl] [-printblocks] [-printfinalblocks] [-notvectorizebranch] [- novecterization] [-noconst] [-multiple] [-unroll max_loop] [-debug] [-src ] hlsl_file
+Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex-2d-0 .. -tex-2d-3 tex_file] [-tex-3d-0 .. -tex-3d-3 tex_file] [-tex-cube-0 .. -tex-cube-3 tex_file] [-shadertoy] [-gl] [-profiling] [-no-torch] [-auto-diff] [-gen-dsl] [-rewrite-dsl] [-print-blocks] [-print-final-blocks] [-not-vectorize-branch] [-no-vectorization] [-no-const] [-multiple] [-max-loop max_loop] [-debug] [-src ] hlsl_file
  
 [-out outfile] output file path and name
  
@@ -20,39 +20,39 @@ Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex2d0
  
 [-entry main_func_name] shader entry function, default is mainImage for shadertoy, main for glsl/compute, frag for hlsl
  
-[-tex2d0~3 tex_file] 2d channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
+[-tex-2d-0 .. -tex-2d-3 tex_file] 2d channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
  
-[-tex3d0~3 tex_file] 3d channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
+[-tex-3d-0 .. -tex-3d-3 tex_file] 3d channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
  
-[-texcube0~3 tex_file] cube channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
+[-tex-cube-0 .. -tex-cube-3 tex_file] cube channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
  
 [-shadertoy] shadertoy mode
  
 [-gl] render with opengl [-ngl] render with matplotlib (default)
  
-[-profiling] profiling mode [-notprofiling] normal mode (default)
+[-profiling] profiling mode [-not-profiling] normal mode (default)
  
-[-notorch] dont use PyTorch lib [-torch] use PyTorch lib (default)
+[-no-torch] dont use PyTorch lib [-torch] use PyTorch lib (default)
  
-[-autodiff] autodiff mode, only valid with torch mode [-noautodiff] normal mode (default)
+[-auto-diff] autodiff mode, only valid with torch mode [-no-auto-diff] normal mode (default)
  
-[-gendsl] generate prune dsl and final dsl [-notgendsl] dont generate prune dsl and final dsl (default)
+[-gen-dsl] generate prune dsl and final dsl [-not-gen-dsl] dont generate prune dsl and final dsl (default)
  
-[-rewritedsl] rewrite [hlsl_file_name].dsl to [hlsl_file_name].txt [-notrewritedsl] dont rewrite dsl (default)
+[-rewrite-dsl] rewrite [hlsl_file_name].dsl to [hlsl_file_name].txt [-not-rewrite-dsl] dont rewrite dsl (default)
  
-[-printblocks] output dataflow structure built in scalar phase [-notprintblocks] dont output (default)
+[-print-blocks] output dataflow structure built in scalar phase [-not-print-blocks] dont output (default)
  
-[-printfinalblocks] output dataflow structure built in vectorizing phase [-notprintfinalblocks] dont output (default)
+[-print-final-blocks] output dataflow structure built in vectorizing phase [-not-print-final-blocks] dont output (default)
  
-[-notvectorizebranch] dont remove loop branches [-vectorizebranch] remove loop branches (default)
+[-not-vectorize-branch] dont remove loop branches [-vectorize-branch] remove loop branches (default)
  
-[-novecterization] dont do vectorization [-vecterization] do vectorization (default)
+[-no-vectorization] dont do vectorization [-vectorization] do vectorization (default)
  
-[-noconst] dont do const propagation [-const] do const propagation (default)
+[-no-const] dont do const propagation [-const] do const propagation (default)
  
 [-multiple] output standalone python lib files [-single] output one python file including lib contents (default)
  
-[-unroll max_loop] max loop count while unroll loops, -1 default, means dont unroll an uncounted loops
+[-max-loop max_loop] max loop count while unroll loops, -1 default, means dont unroll an uncounted loops
  
 [-debug] debug mode
  
@@ -135,7 +135,7 @@ Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex2d0
 ## 命令行 ##
 
 ```
-    Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex2d0~3 tex_file] [-tex3d0~3 tex_file] [-texcube0~3 tex_file] [-shadertoy] [-gl] [-profiling] [-notorch] [-autodiff] [-gendsl] [-rewritedsl] [-printblocks] [-printfinalblocks] [-notvectorizebranch] [-novecterization] [-noconst] [-multiple] [-unroll max_loop] [-debug] [-src ] hlsl_file
+    Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex-2d-0 .. -tex-2d-3 tex_file] [-tex-3d-0 .. -tex-3d-3 tex_file] [-tex-cube-0 .. -tex-cube-3 tex_file] [-shadertoy] [-gl] [-profiling] [-no-torch] [-auto-diff] [-gen-dsl] [-rewrite-dsl] [-print-blocks] [-print-final-blocks] [-not-vectorize-branch] [-no-vectorization] [-no-const] [-multiple] [-max-loop max_loop] [-debug] [-src ] hlsl_file
     
      [-out outfile] output file path and name
     
@@ -143,39 +143,39 @@ Hlsl2Python [-out outfile] [-args arg_dsl_file] [-entry main_func_name] [-tex2d0
     
      [-entry main_func_name] shader entry function, default is mainImage for shadertoy, main for glsl/compute, frag for hlsl
     
-     [-tex2d0~3 tex_file] 2d channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
+     [-tex-2d-0 .. -tex-2d-3 tex_file] 2d channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
     
-     [-tex3d0~3 tex_file] 3d channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
+     [-tex-3d-0 .. -tex-3d-3 tex_file] 3d channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
     
-     [-texcube0~3 tex_file] cube channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
+     [-tex-cube-0 .. -tex-cube-3 tex_file] cube channel texture file for shadertoy, a channel can be 2d or 3d or cube or buffer
     
      [-shadertoy] shadertoy mode
     
      [-gl] render with opengl [-ngl] render with matplotlib (default)
     
-     [-profiling] profiling mode [-notprofiling] normal mode (default)
+     [-profiling] profiling mode [-not-profiling] normal mode (default)
     
-     [-notorch] dont use PyTorch lib [-torch] use PyTorch lib (default)
+     [-no-torch] dont use PyTorch lib [-torch] use PyTorch lib (default)
     
-     [-autodiff] autodiff mode, only valid with torch mode [-noautodiff] normal mode (default)
+     [-auto-diff] autodiff mode, only valid with torch mode [-no-auto-diff] normal mode (default)
     
-     [-gendsl] generate prune dsl and final dsl [-notgendsl] dont generate prune dsl and final dsl (default)
+     [-gen-dsl] generate prune dsl and final dsl [-not-gen-dsl] dont generate prune dsl and final dsl (default)
     
-     [-rewritedsl] rewrite [hlsl_file_name].dsl to [hlsl_file_name].txt [-notrewritedsl] dont rewrite dsl (default)
+     [-rewrite-dsl] rewrite [hlsl_file_name].dsl to [hlsl_file_name].txt [-not-rewrite-dsl] dont rewrite dsl (default)
     
-     [-printblocks] output dataflow structure built in scalar phase [-notprintblocks] dont output (default)
+     [-print-blocks] output dataflow structure built in scalar phase [-not-print-blocks] dont output (default)
     
-     [-printfinalblocks] output dataflow structure built in vectorizing phase [-notprintfinalblocks] dont output (default)
+     [-print-final-blocks] output dataflow structure built in vectorizing phase [-not-print-final-blocks] dont output (default)
     
-     [-notvectorizebranch] dont remove loop branches [-vectorizebranch] remove loop branches (default)
+     [-not-vectorize-branch] dont remove loop branches [-vectorize-branch] remove loop branches (default)
     
-     [-novecterization] dont do vectorization [-vecterization] do vectorization (default)
+     [-no-vectorization] dont do vectorization [-vectorization] do vectorization (default)
     
-     [-noconst] dont do const propagation [-const] do const propagation (default)
+     [-no-const] dont do const propagation [-const] do const propagation (default)
     
      [-multiple] output standalone python lib files [-single] output one python file including lib contents (default)
     
-     [-unroll max_loop] max loop count while unroll loops, -1 default, means dont unroll an uncounted loops
+     [-max-loop max_loop] max loop count while unroll loops, -1 default, means dont unroll an uncounted loops
     
      [-debug] debug mode
     
